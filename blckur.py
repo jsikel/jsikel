@@ -352,9 +352,9 @@ class TestCase(object):
             )
 
             try:
-                self.output_data = self.response.json()
+                self.response_data = self.response.json()
             except:
-                self.output_data = {}
+                self.response_data = {}
 
             if self.expect_status:
                 self.status_check = self.check_data(
