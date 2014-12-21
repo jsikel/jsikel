@@ -195,7 +195,8 @@ class TestCase(object):
 
         return True
 
-    def check_data(self, data, test_data, test_data_exists=True, expect=True):
+    def check_data(self, data, test_data, test_data_exists=True, expect=True,
+            mark_error=True):
         match = False
 
         if not isinstance(data, dict):
@@ -322,7 +323,7 @@ class TestCase(object):
 
             match = True
         finally:
-            if match != expect and not self._error_marked:
+            if mark_error and match != expect and not self._error_marked:
                 self._error_marked = True
                 data['FAILED=' + key] = data.pop(key)
 
