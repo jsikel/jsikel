@@ -177,20 +177,20 @@ class TestCase(object):
             out_value = [out_value]
 
         for value in out_value:
-            if out_value is None:
+            if value is None:
                 return False
             else:
                 if mode == 'lt':
-                    if in_value >= out_value:
+                    if not value < in_value:
                         return False
-                elif mode == 'gte':
-                    if in_value > out_value:
+                elif mode == 'lte':
+                    if not value <= in_value:
                         return False
                 elif mode == 'gt':
-                    if in_value <= out_value:
+                    if not value > in_value:
                         return False
                 elif mode == 'gte':
-                    if in_value < out_value:
+                    if not value >= in_value:
                         return False
 
         return True
