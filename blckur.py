@@ -135,15 +135,19 @@ class TestCase(object):
             yield value
 
     def check_match(self, in_values, out_value):
+        matched = False
         out_value_is_list = isinstance(out_value, list)
-        for in_value in in_values:
-            in_value = self.parse_value(in_value)
-            if out_value_is_list:
+
+        for in_value in self.iter_parse_values(in_values):
+            if matched:
+                continue
+            elif out_value_is_list:
                 if in_value in out_value:
-                    return True
+                    matched = True
             else:
                 if in_value == out_value:
-                    return True
+                    matched = True
+        return matched
 
     def check_match_all(self, in_values, out_value):
         out_value_is_list = isinstance(out_value, list)
