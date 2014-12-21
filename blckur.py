@@ -169,7 +169,33 @@ class TestCase(object):
                     matched = False
         return matched
 
-    def check_data(self, data, in_data, in_data_exists=True, expect=True):
+    def check_match_compare(self, in_value, out_value, mode):
+        if out_value is None:
+            return False
+
+        if not isinstance(out_value, list):
+            out_value = [out_value]
+
+        for value in out_value:
+            if out_value is None:
+                return False
+            else:
+                if mode == 'lt':
+                    if in_value >= out_value:
+                        return False
+                elif mode == 'gte':
+                    if in_value > out_value:
+                        return False
+                elif mode == 'gt':
+                    if in_value <= out_value:
+                        return False
+                elif mode == 'gte':
+                    if in_value < out_value:
+                        return False
+
+        return True
+
+    def check_data(self, data, test_data, test_data_exists=True, expect=True):
         match = False
 
         try:
