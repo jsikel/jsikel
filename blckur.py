@@ -309,7 +309,10 @@ class TestCase(object):
             json=self.inputted,
         )
 
-        self.outputted = self.response.json()
+        try:
+            self.outputted = self.response.json()
+        except:
+            self.outputted = {}
         self.data = self.outputted
 
         if self.output_data:
