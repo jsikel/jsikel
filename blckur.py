@@ -370,14 +370,14 @@ class TestCase(object):
                 return
 
             if self.expect_data:
-                self.expect_check = self.check_data(
+                self.data_check = self.check_data(
                     self.expect_data,
                     self.output_data,
                 )
             else:
-                self.expect_check = True
+                self.data_check = True
 
-            if not self.expect_check:
+            if not self.data_check:
                 if self.required:
                     sys.exit(1)
                 return
