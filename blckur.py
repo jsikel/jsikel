@@ -128,6 +128,12 @@ class TestCase(object):
             return self.parse_exp(value[1:])
         return value
 
+    def iter_parse_values(self, values):
+        for i, value in enumerate(values):
+            value = self.parse_value(value)
+            values[i] = value
+            yield value
+
     def check_match(self, in_values, out_value):
         out_value_is_list = isinstance(out_value, list)
         for in_value in in_values:
