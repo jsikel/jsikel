@@ -185,23 +185,23 @@ class TestCase(object):
                                 found = True
                                 break
                         if not found:
-                            return False
+                            return
                     elif key == '$hasnt':
                         if not isinstance(test_data, list):
                             raise TypeError('TODO %r' % test_data)
 
                         for item in test_data:
                             if self.check_data(value, item):
-                                return False
+                                return
                     elif key == '$in':
                         if not self.check_match(value, test_data):
-                            return False
+                            return
                     elif key == '$nin':
                         if self.check_match(value, test_data):
-                            return False
+                            return
                     elif key == '$all':
                         if not self.check_match_all(value, test_data):
-                            return False
+                            return
                     elif key == '$size':
                         if isinstance(test_data, list):
                             test_data_len = len(test_data)
@@ -241,7 +241,7 @@ class TestCase(object):
                                         test_data,
                                         test_data_exists,
                                     ):
-                                return False
+                                return
                     elif key == '$nor':
                         for item in value:
                             if self.check_data(
@@ -249,7 +249,7 @@ class TestCase(object):
                                         test_data,
                                         test_data_exists,
                                     ):
-                                return False
+                                return
                     elif key == '$or':
                         matched = False
                         for item in value:
@@ -261,13 +261,13 @@ class TestCase(object):
                                 matched = True
                                 break
                         if not matched:
-                            return False
+                            return
                     elif key == '$where':
                         if not value(test_data):
-                            return False
+                            return
                     elif key == '$type':
                         if not isinstance(test_data, value):
-                            return False
+                            return
                     else:
                         raise Exception('TODO', key)
                 else:
@@ -279,7 +279,7 @@ class TestCase(object):
                             out_exists = False
                             out_value = None
                         if not self.check_data(value, out_value, out_exists):
-                            return False
+                            return
                     else:
                         if isinstance(test_data, list):
                             raise TypeError('TODO %r' % test_data)
@@ -289,7 +289,7 @@ class TestCase(object):
                         data[key] = values[0]
 
                         if not matched:
-                            return False
+                            return
 
             match = True
         finally:
@@ -297,7 +297,7 @@ class TestCase(object):
                 self._error_marked = True
                 data['FAILED=' + key] = data.pop(key)
 
-        return True
+            return match == expect
 
     def run(self):
         self.path = self.parse_str(self.path)
