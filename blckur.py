@@ -340,49 +340,58 @@ class TestCase(object):
 
             return match == expect
 
-    def run(self):
-        try:
-            self.path = self.parse_str(self.path)
-            self.inputted = self.parse_input(self.input_data)
-
-            self.response = self.base.requests.request(
-                self.method,
-                self.base.base_url + self.path,
-                json=self.inputted,
+    def handle_expect_status(self, expect_status, response_status):
+        if self.expect_status:
+            return self.check_data(
+                self.expect_status,
+                self.response_status,
             )
+        return True
 
-            self.response_status = self.response.status_code
+    def handle_expect_data(self, expect_data, response_data):
+        if self.expect_data:
+            return self.check_data(
+                self.expect_data,
+                self.response_data,
+            )
+        return True
 
-            try:
-                self.response_data = self.response.json()
-            except:
-                self.response_data = {}
+    def handle_response(self, response):
+        self.response_status = response.status_code
 
-            if self.expect_status:
-                self.status_check = self.check_data(
-                    self.expect_status,
-                    self.response_status,
-                )
-            else:
-                self.status_check = True
+        try:
+            self.response_data = response.json()
+        except:
+            self.response_data = {}
 
-            if not self.status_check:
-                if self.required:
-                    sys.exit(1)
-                return
+        self.status_check = self.handle_expect_status(
+            self.expect_status,
+            self.response_status,
+        )
+        if not self.status_check:
+            if self.required:
+                sys.exit(1)
+            return
 
-            if self.expect_data:
-                self.data_check = self.check_data(
-                    self.expect_data,
-                    self.response_data,
-                )
-            else:
-                self.data_check = True
+        self.data_check = self.handle_expect_data(
+            self.response_data,
+            self.expect_data,
+        )
+        if not self.data_check:
+            if self.required:
+                sys.exit(1)
+            return
 
-            if not self.data_check:
-                if self.required:
-                    sys.exit(1)
-                return
+    def run(self):
+        self.path = self.parse_str(self.path)
+        self.inputted = self.parse_input(self.input_data)
 
-        finally:
-            self.base.objects[self.__class__] = self
+        self.response = self.base.requests.request(
+            self.method,
+            self.base.base_url + self.path,
+            json=self.inputted,
+        )
+
+        self.handle_response(self.response)
+
+        self.base.objects[self.__class__] = self
