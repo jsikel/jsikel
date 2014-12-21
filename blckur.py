@@ -36,6 +36,7 @@ class TestCase(object):
     input_data = None
     output_data = None
     require = None
+    required = True
 
     def __init__(self):
         self._error_marked = False
