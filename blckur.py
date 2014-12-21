@@ -34,7 +34,7 @@ class SessionBase(Base):
 
 class TestCase(object):
     input_data = None
-    output_data = None
+    expect_data = None
     require = None
     required = True
 
@@ -341,8 +341,8 @@ class TestCase(object):
             self.outputted = {}
         self.data = self.outputted
 
-        if self.output_data:
-            check = self.check_data(self.output_data, self.outputted)
+        if self.expect_data:
+            check = self.check_data(self.expect_data, self.outputted)
 
             if not check:
                 print '***************************************************'
@@ -354,7 +354,7 @@ class TestCase(object):
                     indent=JSON_INDENT)
                 print 'input_data:', json.dumps(self.inputted,
                     indent=JSON_INDENT)
-                print 'output_data:', json.dumps(self.output_data,
+                print 'expect_data:', json.dumps(self.expect_data,
                     indent=JSON_INDENT)
                 print 'response:', json.dumps(self.outputted,
                     indent=JSON_INDENT)
