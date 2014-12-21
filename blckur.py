@@ -86,7 +86,7 @@ class TestCase(object):
             index = int(exp_set.popleft())
 
             if exp_type == 'require':
-                data = self.require[index].output_data
+                data = self.require[index].response_data
             elif exp_type == 'require_input':
                 data = self.require[index].input_data
             elif exp_type == 'require_expect':
@@ -351,6 +351,8 @@ class TestCase(object):
                 json=self.inputted,
             )
 
+            self.response_status = self.response.status_code
+
             try:
                 self.response_data = self.response.json()
             except:
@@ -359,7 +361,7 @@ class TestCase(object):
             if self.expect_status:
                 self.status_check = self.check_data(
                     self.expect_status,
-                    self.response.status_code,
+                    self.response_status,
                 )
             else:
                 self.status_check = True
@@ -372,7 +374,7 @@ class TestCase(object):
             if self.expect_data:
                 self.data_check = self.check_data(
                     self.expect_data,
-                    self.output_data,
+                    self.response_data,
                 )
             else:
                 self.data_check = True
