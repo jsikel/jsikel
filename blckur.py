@@ -176,78 +176,78 @@ class TestCase(object):
             for key, value in data.iteritems():
                 if key.startswith('$'):
                     if key == '$has':
-                        if not isinstance(in_data, list):
-                            raise TypeError('TODO %r' % in_data)
+                        if not isinstance(test_data, list):
+                            raise TypeError('TODO %r' % test_data)
 
                         found = False
-                        for item in in_data:
+                        for item in test_data:
                             if self.check_output(value, item):
                                 found = True
                                 break
                         if not found:
                             return False
                     elif key == '$hasnt':
-                        if not isinstance(in_data, list):
-                            raise TypeError('TODO %r' % in_data)
+                        if not isinstance(test_data, list):
+                            raise TypeError('TODO %r' % test_data)
 
-                        for item in in_data:
+                        for item in test_data:
                             if self.check_output(value, item):
                                 return False
                     elif key == '$in':
-                        if not self.check_match(value, in_data):
+                        if not self.check_match(value, test_data):
                             return False
                     elif key == '$nin':
-                        if self.check_match(value, in_data):
+                        if self.check_match(value, test_data):
                             return False
                     elif key == '$all':
-                        if not self.check_match_all(value, in_data):
+                        if not self.check_match_all(value, test_data):
                             return False
                     elif key == '$size':
-                        if isinstance(in_data, list):
-                            in_data_len = len(in_data)
+                        if isinstance(test_data, list):
+                            test_data_len = len(test_data)
                         else:
-                            in_data_len = 0
+                            test_data_len = 0
 
                         if isinstance(value, dict):
-                            if not self.check_output(value, in_data_len):
+                            if not self.check_output(value, test_data_len):
                                 return False
                         else:
                             value = self.parse_value(value)
                             data[key] = value
-                            if value != in_data_len:
+                            if value != test_data_len:
                                 return False
                     elif key == '$exists':
                         value = self.parse_value(value)
                         data[key] = value
-                        if value != in_data_exists:
+                        if value != test_data_exists:
                             return False
                     elif key == '$ne':
                         values = [value]
-                        matched = self.check_match(values, in_data)
+                        matched = self.check_match(values, test_data)
                         data[key] = values[0]
                         if matched:
                             return False
                     elif key == '$not':
                         if self.check_output(
                                     value,
-                                    in_data,
-                                    in_data_exists,
+                                    test_data,
+                                    test_data_exists,
                                 ):
                             return False
                     elif key == '$and':
                         for item in value:
                             if not self.check_output(
                                         item,
-                                        in_data,
-                                        in_data_exists,
+                                        test_data,
+                                        test_data_exists,
                                     ):
                                 return False
                     elif key == '$nor':
                         for item in value:
                             if self.check_output(
                                         item,
-                                        in_data,
-                                        in_data_exists,
+                                        test_data,
+                                        test_data_exists,
                                     ):
                                 return False
                     elif key == '$or':
@@ -255,37 +255,37 @@ class TestCase(object):
                         for item in value:
                             if self.check_output(
                                         item,
-                                        in_data,
-                                        in_data_exists,
+                                        test_data,
+                                        test_data_exists,
                                     ):
                                 matched = True
                                 break
                         if not matched:
                             return False
                     elif key == '$where':
-                        if not value(in_data):
+                        if not value(test_data):
                             return False
                     elif key == '$type':
-                        if not isinstance(in_data, value):
+                        if not isinstance(test_data, value):
                             return False
                     else:
                         raise Exception('TODO', key)
                 else:
                     if isinstance(value, dict):
-                        if key in in_data:
+                        if key in test_data:
                             out_exists = True
-                            out_value = in_data[key]
+                            out_value = test_data[key]
                         else:
                             out_exists = False
                             out_value = None
                         if not self.check_output(value, out_value, out_exists):
                             return False
                     else:
-                        if isinstance(in_data, list):
-                            raise TypeError('TODO %r' % in_data)
+                        if isinstance(test_data, list):
+                            raise TypeError('TODO %r' % test_data)
 
                         values = [value]
-                        matched = self.check_match(values, in_data.get(key))
+                        matched = self.check_match(values, test_data.get(key))
                         data[key] = values[0]
 
                         if not matched:
