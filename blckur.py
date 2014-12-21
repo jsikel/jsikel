@@ -211,9 +211,10 @@ class TestCase(object):
 
                         found = False
                         for item in test_data:
-                            if self.check_data(value, item):
+                            if self.check_data(value, item, mark_error=False):
                                 found = True
                                 break
+
                         if not found:
                             return
                     elif key == '$hasnt':
@@ -240,30 +241,40 @@ class TestCase(object):
 
                         if isinstance(value, dict):
                             if not self.check_data(value, test_data_len):
-                                return False
+                                return
                         else:
                             value = self.parse_value(value)
                             data[key] = value
                             if value != test_data_len:
-                                return False
+                                return
                     elif key == '$exists':
                         value = self.parse_value(value)
                         data[key] = value
                         if value != test_data_exists:
-                            return False
+                            return
                     elif key == '$ne':
                         values = [value]
                         matched = self.check_match(values, test_data)
                         data[key] = values[0]
                         if matched:
-                            return False
+                            return
                     elif key == '$not':
                         if self.check_data(
                                     value,
                                     test_data,
                                     test_data_exists,
                                 ):
-                            return False
+                            return
+                    elif key in ('$lt', '$lte', '$gt', '$gte'):
+                        value = self.parse_value(value)
+                        data[key] = value
+
+                        if not self.check_match_compare(
+                                    value,
+                                    test_data,
+                                    key[1:],
+                                ):
+                            return
                     elif key == '$and':
                         for item in value:
                             if not self.check_data(
