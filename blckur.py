@@ -319,6 +319,21 @@ class TestCase(object):
             check = self.check_output(self.output_data, self.outputted)
 
             if not check:
-                raise Exception('TODO')
+                print '***************************************************'
+                print 'TEST FAILED'
+                print 'name:', self.__class__.__name__
+                print 'method:', self.method
+                print 'path:', self.path
+                print 'status_code:', json.dumps(self.status_code,
+                    indent=JSON_INDENT)
+                print 'input_data:', json.dumps(self.inputted,
+                    indent=JSON_INDENT)
+                print 'output_data:', json.dumps(self.output_data,
+                    indent=JSON_INDENT)
+                print 'response:', json.dumps(self.outputted,
+                    indent=JSON_INDENT)
+                print '***************************************************'
+                if self.required:
+                    sys.exit(1)
 
         self.base.objects[self.__class__] = self
