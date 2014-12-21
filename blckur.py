@@ -7,6 +7,7 @@ import copy
 import uuid
 
 STR_EXP = re.compile('\{\$([^}]+)\}')
+JSON_INDENT = 2
 
 class Base(object):
     base_url = None
