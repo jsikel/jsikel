@@ -150,15 +150,19 @@ class TestCase(object):
         return matched
 
     def check_match_all(self, in_values, out_value):
+        matched = True
         out_value_is_list = isinstance(out_value, list)
-        for in_value in in_values:
-            if out_value_is_list:
+
+        for in_value in self.iter_parse_values(in_values):
+            if not matched:
+                continue
+            elif out_value_is_list:
                 if in_value not in out_value:
-                    return False
+                    matched = False
             else:
                 if in_value != out_value:
-                    return False
-        return True
+                    matched = False
+        return matched
 
     def check_output(self, data, outputted, outputted_exists=True):
         for key, value in data.iteritems():
