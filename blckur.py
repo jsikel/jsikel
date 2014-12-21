@@ -90,7 +90,7 @@ class TestCase(object):
             elif exp_type == 'require_input':
                 data = self.require[index].inputted
             elif exp_type == 'require_output':
-                data = self.require[index].outputted
+                data = self.require[index].output_data
             else:
                 raise TypeError('TODO %r' % exp)
         elif exp_type == 'input':
@@ -336,13 +336,13 @@ class TestCase(object):
         )
 
         try:
-            self.outputted = self.response.json()
+            self.output_data = self.response.json()
         except:
-            self.outputted = {}
-        self.data = self.outputted
+            self.output_data = {}
+        self.data = self.output_data
 
         if self.expect_data:
-            check = self.check_data(self.expect_data, self.outputted)
+            check = self.check_data(self.expect_data, self.output_data)
 
             if not check:
                 print '***************************************************'
@@ -356,7 +356,7 @@ class TestCase(object):
                     indent=JSON_INDENT)
                 print 'expect_data:', json.dumps(self.expect_data,
                     indent=JSON_INDENT)
-                print 'response:', json.dumps(self.outputted,
+                print 'response:', json.dumps(self.output_data,
                     indent=JSON_INDENT)
                 print '***************************************************'
                 if self.required:
