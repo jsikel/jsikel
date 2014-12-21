@@ -5,6 +5,7 @@ import re
 import collections
 import copy
 import uuid
+import sys
 
 STR_EXP = re.compile('\{\$([^}]+)\}')
 JSON_INDENT = 2
