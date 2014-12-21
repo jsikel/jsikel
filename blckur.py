@@ -181,7 +181,7 @@ class TestCase(object):
 
                         found = False
                         for item in test_data:
-                            if self.check_output(value, item):
+                            if self.check_data(value, item):
                                 found = True
                                 break
                         if not found:
@@ -191,7 +191,7 @@ class TestCase(object):
                             raise TypeError('TODO %r' % test_data)
 
                         for item in test_data:
-                            if self.check_output(value, item):
+                            if self.check_data(value, item):
                                 return False
                     elif key == '$in':
                         if not self.check_match(value, test_data):
@@ -209,7 +209,7 @@ class TestCase(object):
                             test_data_len = 0
 
                         if isinstance(value, dict):
-                            if not self.check_output(value, test_data_len):
+                            if not self.check_data(value, test_data_len):
                                 return False
                         else:
                             value = self.parse_value(value)
@@ -228,7 +228,7 @@ class TestCase(object):
                         if matched:
                             return False
                     elif key == '$not':
-                        if self.check_output(
+                        if self.check_data(
                                     value,
                                     test_data,
                                     test_data_exists,
@@ -236,7 +236,7 @@ class TestCase(object):
                             return False
                     elif key == '$and':
                         for item in value:
-                            if not self.check_output(
+                            if not self.check_data(
                                         item,
                                         test_data,
                                         test_data_exists,
@@ -244,7 +244,7 @@ class TestCase(object):
                                 return False
                     elif key == '$nor':
                         for item in value:
-                            if self.check_output(
+                            if self.check_data(
                                         item,
                                         test_data,
                                         test_data_exists,
@@ -253,7 +253,7 @@ class TestCase(object):
                     elif key == '$or':
                         matched = False
                         for item in value:
-                            if self.check_output(
+                            if self.check_data(
                                         item,
                                         test_data,
                                         test_data_exists,
@@ -278,7 +278,7 @@ class TestCase(object):
                         else:
                             out_exists = False
                             out_value = None
-                        if not self.check_output(value, out_value, out_exists):
+                        if not self.check_data(value, out_value, out_exists):
                             return False
                     else:
                         if isinstance(test_data, list):
