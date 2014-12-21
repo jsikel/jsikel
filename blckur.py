@@ -37,7 +37,7 @@ class TestCase(object):
 
     def __init__(self):
         if self.__class__ in self.base.objects:
-            raise Exception('TODO')
+            raise ValueError('Test case %r already run' % self.__class__)
 
         if self.require:
             if not isinstance(self.require, (list, tuple)):
