@@ -164,108 +164,134 @@ class TestCase(object):
                     matched = False
         return matched
 
-    def check_output(self, data, outputted, outputted_exists=True):
-        for key, value in data.iteritems():
-            if key.startswith('$'):
-                if key == '$has':
-                    if not isinstance(outputted, list):
-                        raise TypeError('TODO %r' % outputted)
+    def check_output(self, data, outputted, outputted_exists=True,
+            expect=True):
+        match = False
 
-                    found = False
-                    for item in outputted:
-                        if self.check_output(value, item):
-                            found = True
-                            break
-                    if not found:
-                        return False
-                elif key == '$hasnt':
-                    if not isinstance(outputted, list):
-                        raise TypeError('TODO %r' % outputted)
+        try:
+            for key, value in data.iteritems():
+                if key.startswith('$'):
+                    if key == '$has':
+                        if not isinstance(outputted, list):
+                            raise TypeError('TODO %r' % outputted)
 
-                    for item in outputted:
-                        if self.check_output(value, item):
+                        found = False
+                        for item in outputted:
+                            if self.check_output(value, item):
+                                found = True
+                                break
+                        if not found:
                             return False
-                elif key == '$in':
-                    if not self.check_match(value, outputted):
-                        return False
-                elif key == '$nin':
-                    if self.check_match(value, outputted):
-                        return False
-                elif key == '$all':
-                    if not self.check_match_all(value, outputted):
-                        return False
-                elif key == '$size':
-                    if isinstance(outputted, list):
-                        outputted_len = len(outputted)
-                    else:
-                        outputted_len = 0
+                    elif key == '$hasnt':
+                        if not isinstance(outputted, list):
+                            raise TypeError('TODO %r' % outputted)
 
+                        for item in outputted:
+                            if self.check_output(value, item):
+                                return False
+                    elif key == '$in':
+                        if not self.check_match(value, outputted):
+                            return False
+                    elif key == '$nin':
+                        if self.check_match(value, outputted):
+                            return False
+                    elif key == '$all':
+                        if not self.check_match_all(value, outputted):
+                            return False
+                    elif key == '$size':
+                        if isinstance(outputted, list):
+                            outputted_len = len(outputted)
+                        else:
+                            outputted_len = 0
+
+                        if isinstance(value, dict):
+                            if not self.check_output(value, outputted_len):
+                                return False
+                        else:
+                            value = self.parse_value(value)
+                            data[key] = value
+                            if value != outputted_len:
+                                return False
+                    elif key == '$exists':
+                        value = self.parse_value(value)
+                        data[key] = value
+                        if value != outputted_exists:
+                            return False
+                    elif key == '$ne':
+                        values = [value]
+                        matched = self.check_match(values, outputted)
+                        data[key] = values[0]
+                        if matched:
+                            return False
+                    elif key == '$not':
+                        if self.check_output(
+                                    value,
+                                    outputted,
+                                    outputted_exists,
+                                ):
+                            return False
+                    elif key == '$and':
+                        for item in value:
+                            if not self.check_output(
+                                        item,
+                                        outputted,
+                                        outputted_exists,
+                                    ):
+                                return False
+                    elif key == '$nor':
+                        for item in value:
+                            if self.check_output(
+                                        item,
+                                        outputted,
+                                        outputted_exists,
+                                    ):
+                                return False
+                    elif key == '$or':
+                        matched = False
+                        for item in value:
+                            if self.check_output(
+                                        item,
+                                        outputted,
+                                        outputted_exists,
+                                    ):
+                                matched = True
+                                break
+                        if not matched:
+                            return False
+                    elif key == '$where':
+                        if not value(outputted):
+                            return False
+                    elif key == '$type':
+                        if not isinstance(outputted, value):
+                            return False
+                    else:
+                        raise Exception('TODO', key)
+                else:
                     if isinstance(value, dict):
-                        if not self.check_output(value, outputted_len):
+                        if key in outputted:
+                            out_exists = True
+                            out_value = outputted[key]
+                        else:
+                            out_exists = False
+                            out_value = None
+                        if not self.check_output(value, out_value, out_exists):
                             return False
                     else:
-                        if self.parse_value(value) != outputted_len:
+                        if isinstance(outputted, list):
+                            raise TypeError('TODO %r' % outputted)
+
+                        values = [value]
+                        matched = self.check_match(values, outputted.get(key))
+                        data[key] = values[0]
+
+                        if not matched:
                             return False
-                elif key == '$exists':
-                    if self.parse_value(value) != outputted_exists:
-                        return False
-                elif key == '$ne':
-                    if self.check_match((value,), outputted):
-                        return False
-                elif key == '$not':
-                    if self.check_output(value, outputted, outputted_exists):
-                        return False
-                elif key == '$and':
-                    for item in value:
-                        if not self.check_output(
-                                    item,
-                                    outputted,
-                                    outputted_exists,
-                                ):
-                            return False
-                elif key == '$nor':
-                    for item in value:
-                        if self.check_output(
-                                    item,
-                                    outputted,
-                                    outputted_exists,
-                                ):
-                            return False
-                elif key == '$or':
-                    matched = False
-                    for item in value:
-                        if self.check_output(
-                                    item,
-                                    outputted,
-                                    outputted_exists,
-                                ):
-                            matched = True
-                            break
-                    if not matched:
-                        return False
-                elif key == '$where':
-                    if not value(outputted):
-                        return False
-                elif key == '$type':
-                    if not isinstance(outputted, value):
-                        return False
-                else:
-                    raise Exception('TODO', key)
-            else:
-                if isinstance(value, dict):
-                    if key in outputted:
-                        out_exists = True
-                        out_value = outputted[key]
-                    else:
-                        out_exists = False
-                        out_value = None
-                    if not self.check_output(value, out_value, out_exists):
-                        return False
-                else:
-                    if isinstance(outputted, list):
-                        raise TypeError('TODO %r' % outputted)
-                    if not self.check_match((value,), outputted.get(key)):
-                        return False
+
+            match = True
+        finally:
+            if match != expect:
+                data['FAILED=' + key] = data.pop(key)
+
         return True
 
     def run(self):
