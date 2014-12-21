@@ -356,10 +356,13 @@ class TestCase(object):
             except:
                 self.output_data = {}
 
-            self.status_check = self.check_data(
-                self.status_code,
-                self.response.status_code,
-            )
+            if self.expect_status:
+                self.status_check = self.check_data(
+                    self.expect_status,
+                    self.response.status_code,
+                )
+            else:
+                self.status_check = True
 
             if not self.status_check:
                 if self.required:
