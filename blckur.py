@@ -341,40 +341,43 @@ class TestCase(object):
             return match == expect
 
     def run(self):
-        self.path = self.parse_str(self.path)
-        self.inputted = self.parse_input(self.input_data)
-
-        self.response = self.base.requests.request(
-            self.method,
-            self.base.base_url + self.path,
-            json=self.inputted,
-        )
-
         try:
-            self.output_data = self.response.json()
-        except:
-            self.output_data = {}
-        self.data = self.output_data
+            self.path = self.parse_str(self.path)
+            self.inputted = self.parse_input(self.input_data)
 
-        if self.expect_data:
-            check = self.check_data(self.expect_data, self.output_data)
+            self.response = self.base.requests.request(
+                self.method,
+                self.base.base_url + self.path,
+                json=self.inputted,
+            )
 
-            if not check:
-                print '***************************************************'
-                print 'TEST FAILED'
-                print 'name:', self.__class__.__name__
-                print 'method:', self.method
-                print 'path:', self.path
-                print 'status_code:', json.dumps(self.status_code,
-                    indent=JSON_INDENT)
-                print 'input_data:', json.dumps(self.inputted,
-                    indent=JSON_INDENT)
-                print 'expect_data:', json.dumps(self.expect_data,
-                    indent=JSON_INDENT)
-                print 'response:', json.dumps(self.output_data,
-                    indent=JSON_INDENT)
-                print '***************************************************'
+            try:
+                self.output_data = self.response.json()
+            except:
+                self.output_data = {}
+
+            self.status_check = self.check_data(
+                self.status_code,
+                self.response.status_code,
+            )
+
+            if not self.status_check:
                 if self.required:
                     sys.exit(1)
+                return
 
-        self.base.objects[self.__class__] = self
+            if self.expect_data:
+                self.expect_check = self.check_data(
+                    self.expect_data,
+                    self.output_data,
+                )
+            else:
+                self.expect_check = True
+
+            if not self.expect_check:
+                if self.required:
+                    sys.exit(1)
+                return
+
+        finally:
+            self.base.objects[self.__class__] = self
