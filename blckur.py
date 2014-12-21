@@ -38,6 +38,8 @@ class TestCase(object):
     require = None
 
     def __init__(self):
+        self._error_marked = False
+
         if self.__class__ in self.base.objects:
             raise ValueError('Test case %r already run' % self.__class__)
 
@@ -291,7 +293,8 @@ class TestCase(object):
 
             match = True
         finally:
-            if match != expect:
+            if match != expect and not self._error_marked:
+                self._error_marked = True
                 data['FAILED=' + key] = data.pop(key)
 
         return True
