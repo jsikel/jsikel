@@ -86,11 +86,11 @@ class TestCase(object):
             index = int(exp_set.popleft())
 
             if exp_type == 'require':
-                data = self.require[index].data
-            elif exp_type == 'require_input':
-                data = self.require[index].inputted
-            elif exp_type == 'require_output':
                 data = self.require[index].output_data
+            elif exp_type == 'require_input':
+                data = self.require[index].input_data
+            elif exp_type == 'require_expect':
+                data = self.require[index].expect_data
             else:
                 raise TypeError('TODO %r' % exp)
         elif exp_type == 'input':
