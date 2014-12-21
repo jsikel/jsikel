@@ -198,6 +198,9 @@ class TestCase(object):
     def check_data(self, data, test_data, test_data_exists=True, expect=True):
         match = False
 
+        if not isinstance(data, dict):
+            return self.check_match([data], test_data)
+
         try:
             for key, value in data.iteritems():
                 if key.startswith('$'):
