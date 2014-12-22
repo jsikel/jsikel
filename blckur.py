@@ -59,6 +59,7 @@ class Base(object):
     filter = TestCaseReportFilter()
     formatter = TestCaseReportFormatter()
     handler = TestCaseReportHandler()
+    request_kwargs = None
 
     def __init__(self):
         self.objects = {}
@@ -110,9 +111,11 @@ class TestCase(object):
     method = 'GET'
     path = '/'
     expect_status = None
+    input_headers = None
     expect_headers = None
     input_data = None
     expect_data = None
+    request_kwargs = None
 
     def __init__(self):
         self._error_marked = False
