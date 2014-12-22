@@ -22,14 +22,14 @@ class TestCaseReportFormatter(object):
             'name: %r\n' % test_case.__class__.__name__ + \
             'method: %r\n' % test_case.method + \
             'path: %r\n' % test_case.path + \
-            'expect_status: %r' % json.dumps(test_case.expect_status,
+            'expect_status: %s\n' % json.dumps(test_case.expect_status,
                 indent=JSON_INDENT) + \
-            'response_status: %r\n' % test_case.response_status + \
-            'input_data: %r\n' % json.dumps(test_case.input_data,
+            'response_status: %s\n' % test_case.response_status + \
+            'input_data: %s\n' % json.dumps(test_case.input_data,
                 indent=JSON_INDENT) + \
-            'expect_data: %r\n' % json.dumps(test_case.expect_data,
+            'expect_data: %s\n' % json.dumps(test_case.expect_data,
                 indent=JSON_INDENT) + \
-            'response_data: %r\n' % json.dumps(test_case.response_data,
+            'response_data: %s\n' % json.dumps(test_case.response_data,
                 indent=JSON_INDENT) + \
             '***************************************************'
 
