@@ -92,10 +92,10 @@ class TestCase(object):
 
             requires = []
             for require in self.require:
-                require = self.base.objects.get(require)
-                if not require:
-                    require = require()
-                requires.append(require)
+                require_obj = self.base.objects.get(require)
+                if not require_obj:
+                    require_obj = require()
+                requires.append(require_obj)
             self.require = requires
 
         self.run()
