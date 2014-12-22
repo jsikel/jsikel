@@ -36,6 +36,12 @@ class TestCaseReportFormatter(object):
             'expect_status: %s\n' % json.dumps(test_case.expect_status,
                 indent=JSON_INDENT) + \
             'response_status: %s\n' % test_case.response_status + \
+            'expect_headers: %s\n' % json.dumps(test_case.expect_headers,
+                indent=JSON_INDENT) + \
+            'response_headers: %s\n' % json.dumps(
+                dict(test_case.response_headers.items()),
+                indent=JSON_INDENT,
+            ) + \
             'input_data: %s\n' % json.dumps(test_case.input_data,
                 indent=JSON_INDENT) + \
             'expect_data: %s\n' % json.dumps(test_case.expect_data,
