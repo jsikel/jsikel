@@ -3,7 +3,7 @@ from blckur.exceptions import *
 
 import json
 
-class TestCaseReportFormatter(object):
+class ReportFormatter(object):
     def json_default(self, obj):
         if hasattr(obj, '__name__'):
             return '%s()' % obj.__name__
