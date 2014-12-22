@@ -64,6 +64,15 @@ class Base(object):
             'base': self,
         })
 
+    def main(self):
+        module = __import__('__main__')
+
+        for name in dir(module):
+            obj = getattr(module, name)
+            if isinstance(obj, type) and issubclass(obj, TestCase) and \
+                    obj.base == self and obj not in self.objects:
+                obj()
+
 class SessionBase(Base):
     def __init__(self):
         Base.__init__(self)
