@@ -84,10 +84,14 @@ class SessionBase(Base):
         )
 
 class TestCase(object):
-    input_data = None
-    expect_data = None
     require = None
     required = True
+    method = 'GET'
+    path = '/'
+    expect_status = None
+    expect_headers = None
+    input_data = None
+    expect_data = None
 
     def __init__(self):
         self._error_marked = False
