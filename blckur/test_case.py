@@ -16,8 +16,8 @@ class TestCase(object):
     expect_status = None
     input_headers = None
     expect_headers = None
-    input_data = None
-    expect_data = None
+    input_json = None
+    expect_json = None
     request_kwargs = None
 
     def __init__(self):
@@ -70,13 +70,13 @@ class TestCase(object):
             if exp_type == 'require':
                 data = self.require[index].response_data
             elif exp_type == 'require_input':
-                data = self.require[index].input_data
+                data = self.require[index].input_json
             elif exp_type == 'require_expect':
-                data = self.require[index].expect_data
+                data = self.require[index].expect_json
             else:
                 raise TypeError('TODO %r' % exp)
         elif exp_type == 'input':
-            data = self.input_data
+            data = self.input_json
         elif exp_type == 'time':
             return str(int(time.time()))
         elif exp_type == 'time_float':
@@ -352,10 +352,10 @@ class TestCase(object):
             )
         return True
 
-    def handle_expect_data(self, expect_data, response_data):
-        if self.expect_data:
+    def handle_expect_json(self, expect_json, response_data):
+        if self.expect_json:
             return self.check_data(
-                self.expect_data,
+                self.expect_json,
                 self.response_data,
             )
         return True
@@ -395,9 +395,9 @@ class TestCase(object):
             self.handle_check_error('Headers check failed')
             return
 
-        self.data_check = self.handle_expect_data(
+        self.data_check = self.handle_expect_json(
             self.response_data,
-            self.expect_data,
+            self.expect_json,
         )
         if not self.data_check:
             self.handle_check_error('Data check failed')
@@ -405,7 +405,7 @@ class TestCase(object):
 
     def run(self):
         self.path = self.parse_str(self.path)
-        self.input_data = self.parse_input(self.input_data)
+        self.input_json = self.parse_input(self.input_json)
 
         if self.expect_headers:
             self.expect_headers = {x.lower(): y for x, y in
@@ -417,7 +417,7 @@ class TestCase(object):
             self.method,
             self.base.base_url + self.path,
             headers=self.input_headers,
-            json=self.input_data,
+            json=self.input_json,
             **kwargs
         )
 

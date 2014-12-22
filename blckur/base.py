@@ -62,5 +62,5 @@ class SessionBase(Base):
         self.requests.request(
             self.method,
             self.base_url + self.path,
-            json=self.input_data,
+            json=self.input_json,
         )
