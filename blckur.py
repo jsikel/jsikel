@@ -58,17 +58,17 @@ class TestCaseReportFormatter(object):
                 test_case.input_data,
                 default=self.json_default,
                 indent=JSON_INDENT,
-                ) + \
+            ) + \
             'expect_data: %s\n' % json.dumps(
                 test_case.expect_data,
                 default=self.json_default,
                 indent=JSON_INDENT,
-                ) + \
+            ) + \
             'response_data: %s\n' % json.dumps(
                 test_case.response_data,
                 default=self.json_default,
                 indent=JSON_INDENT,
-                ) + \
+            ) + \
             '***************************************************'
 
 class TestCaseReportHandler(object):
