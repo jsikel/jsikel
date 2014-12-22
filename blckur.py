@@ -294,6 +294,12 @@ class TestCase(object):
                         data[key] = value
                         if value != test_data_exists:
                             return
+                    elif key == '$eq':
+                        values = [value]
+                        matched = self.check_match(values, test_data)
+                        data[key] = values[0]
+                        if not matched:
+                            return
                     elif key == '$ne':
                         values = [value]
                         matched = self.check_match(values, test_data)
