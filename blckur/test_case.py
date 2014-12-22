@@ -6,6 +6,7 @@ import collections
 import time
 import uuid
 import types
+import sys
 
 class TestCase(object):
     require = None
