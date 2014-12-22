@@ -1,6 +1,6 @@
 from blckur.constants import *
 from blckur.exceptions import *
 
-class TestCaseReportFilter(object):
+class ReportFilter(object):
     def error(self, test_case):
         return True

@@ -10,7 +10,7 @@ import requests
 
 class Base(object):
     base_url = None
-    filter = filter.TestCaseReportFilter()
+    filter = filter.ReportFilter()
     formatter = formatter.ReportFormatter()
     handler = handler.ReportHandler()
     request_kwargs = None
