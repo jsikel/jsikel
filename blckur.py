@@ -6,6 +6,7 @@ import collections
 import copy
 import uuid
 import sys
+import types
 
 STR_EXP = re.compile('\{\$([^}]+)\}')
 JSON_INDENT = 2
@@ -348,7 +349,15 @@ class TestCase(object):
                         if not value(test_data):
                             return
                     elif key == '$type':
-                        if not isinstance(test_data, value):
+                        json_types = {
+                            'number': (int, long, float, complex),
+                            'string': basestring,
+                            'boolean': bool,
+                            'array': list,
+                            'object': dict,
+                            'null': types.NoneType,
+                        }
+                        if not isinstance(test_data, json_types[value]):
                             return
                     else:
                         raise Exception('TODO', key)
