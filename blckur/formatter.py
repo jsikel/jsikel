@@ -31,13 +31,13 @@ class ReportFormatter(object):
                 default=self.json_default,
                 indent=JSON_INDENT,
             ) + \
-            'input_data: %s\n' % json.dumps(
-                test_case.input_data,
+            'input_json: %s\n' % json.dumps(
+                test_case.input_json,
                 default=self.json_default,
                 indent=JSON_INDENT,
             ) + \
-            'expect_data: %s\n' % json.dumps(
-                test_case.expect_data,
+            'expect_json: %s\n' % json.dumps(
+                test_case.expect_json,
                 default=self.json_default,
                 indent=JSON_INDENT,
             ) + \
