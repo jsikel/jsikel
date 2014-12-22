@@ -62,11 +62,27 @@ class SessionBase(Base):
     def __init__(self):
         Base.__init__(self)
         self.requests = requests.Session()
+        self.init_session()
 
-        self.request(
-            self.method,
-            self.base_url + self.path,
-            json=self.input_json,
-            params=self.input_params,
-            data=self.input_data,
-        )
+    def _get_attr(self, name, default=None):
+        if hasattr(self, name):
+            return getattr(self, name)
+        return default
+
+    def init_session(self):
+        test_case = type('SessionInitTestCase', (self.TestCase,), {
+            'base': self,
+            'require': self._get_attr('require'),
+            'required': self._get_attr('required', True),
+            'method': self._get_attr('method'),
+            'path': self._get_attr('path'),
+            'expect_status': self._get_attr('expect_status'),
+            'input_headers': self._get_attr('input_headers'),
+            'expect_headers': self._get_attr('expect_headers'),
+            'input_json': self._get_attr('input_json'),
+            'input_params': self._get_attr('input_params'),
+            'input_data': self._get_attr('input_data'),
+            'expect_json': self._get_attr('expect_json'),
+            'request_kwargs': self._get_attr('request_kwargs'),
+        })
+        test_case()
