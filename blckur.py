@@ -11,6 +11,16 @@ STR_EXP = re.compile('\{\$([^}]+)\}')
 JSON_INDENT = 2
 
 
+class TestException(Exception):
+    pass
+
+class TestStatusFailed(TestException):
+    pass
+
+class TestExpectFailed(TestException):
+    pass
+
+
 class TestCaseReportFilter(object):
     def error(self, test_case):
         return True
