@@ -17,6 +17,8 @@ class TestCase(object):
     input_headers = None
     expect_headers = None
     input_json = None
+    input_params = None
+    input_data = None
     expect_json = None
     request_kwargs = None
 

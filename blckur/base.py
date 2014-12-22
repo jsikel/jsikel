@@ -46,12 +46,15 @@ class Base(object):
 
         return response
 
-    def request(self, method, url, headers=None, json=None, **kwargs):
+    def request(self, method, url, headers=None, json=None,
+            params=None, data=None, **kwargs):
         return self.requests.request(
             method,
             url,
             headers=headers,
             json=json,
+            params=params,
+            data=data,
             **kwargs
         )
 
@@ -59,8 +62,11 @@ class SessionBase(Base):
     def __init__(self):
         Base.__init__(self)
         self.requests = requests.Session()
-        self.requests.request(
+
+        self.request(
             self.method,
             self.base_url + self.path,
             json=self.input_json,
+            params=self.input_params,
+            data=self.input_data,
         )
