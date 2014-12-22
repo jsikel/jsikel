@@ -125,7 +125,7 @@ class TestCase(object):
             else:
                 raise TypeError('TODO %r' % exp)
         elif exp_type == 'input':
-            data = self.inputted
+            data = self.input_data
         elif exp_type == 'time':
             return str(int(time.time()))
         elif exp_type == 'time_float':
@@ -423,12 +423,12 @@ class TestCase(object):
 
     def run(self):
         self.path = self.parse_str(self.path)
-        self.inputted = self.parse_input(self.input_data)
+        self.input_data = self.parse_input(self.input_data)
 
         self.response = self.base.requests.request(
             self.method,
             self.base.base_url + self.path,
-            json=self.inputted,
+            json=self.input_data,
         )
 
         self.handle_response(self.response)
