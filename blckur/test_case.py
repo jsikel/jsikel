@@ -11,8 +11,8 @@ import sys
 class TestCase(object):
     require = None
     required = True
-    method = 'GET'
-    path = '/'
+    method = None
+    path = None
     expect_status = None
     input_headers = None
     expect_headers = None
