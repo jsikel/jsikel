@@ -79,6 +79,21 @@ class Base(object):
                     obj.base == self and obj not in self.objects:
                 obj()
 
+    def handle_request(self, method, url, **kwargs):
+        if self.request_kwargs:
+            kwargs.update(self.request_kwargs)
+
+        return self.request(method, url, **kwargs)
+
+    def request(self, method, url, headers=None, json=None, **kwargs):
+        return self.requests.request(
+            method,
+            url,
+            headers=headers,
+            json=json,
+            **kwargs
+        )
+
 class SessionBase(Base):
     def __init__(self):
         Base.__init__(self)
@@ -490,10 +505,14 @@ class TestCase(object):
             self.expect_headers = {x.lower(): y for x, y in
                 self.expect_headers.iteritems()}
 
-        self.response = self.base.requests.request(
+        kwargs = self.request_kwargs or {}
+
+        self.response = self.base.handle_request(
             self.method,
             self.base.base_url + self.path,
+            headers=self.input_headers,
             json=self.input_data,
+            **kwargs
         )
 
         self.handle_response(self.response)
