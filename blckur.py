@@ -60,6 +60,7 @@ class Base(object):
     formatter = TestCaseReportFormatter()
     handler = TestCaseReportHandler()
     request_kwargs = None
+    request_time = None
 
     def __init__(self):
         self.objects = {}
@@ -84,7 +85,11 @@ class Base(object):
         if self.request_kwargs:
             kwargs.update(self.request_kwargs)
 
-        return self.request(method, url, **kwargs)
+        start = time.time()
+        response = self.request(method, url, **kwargs)
+        self.request_time = int((time.time() - start) * 1000)
+
+        return response
 
     def request(self, method, url, headers=None, json=None, **kwargs):
         return self.requests.request(
