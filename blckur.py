@@ -413,6 +413,14 @@ class TestCase(object):
             )
         return True
 
+    def handle_expect_headers(self, expect_headers, response_headers):
+        if self.expect_headers:
+            return self.check_data(
+                self.expect_headers,
+                self.response_headers,
+            )
+        return True
+
     def handle_expect_data(self, expect_data, response_data):
         if self.expect_data:
             return self.check_data(
@@ -433,6 +441,7 @@ class TestCase(object):
 
     def handle_response(self, response):
         self.response_status = response.status_code
+        self.response_headers = dict(response.headers.items())
 
         try:
             self.response_data = response.json()
@@ -447,6 +456,14 @@ class TestCase(object):
             self.handle_check_error('Status check failed')
             return
 
+        self.headers_check = self.handle_expect_headers(
+            self.expect_headers,
+            self.response_headers,
+        )
+        if not self.headers_check:
+            self.handle_check_error('Headers check failed')
+            return
+
         self.data_check = self.handle_expect_data(
             self.response_data,
             self.expect_data,
@@ -458,6 +475,10 @@ class TestCase(object):
     def run(self):
         self.path = self.parse_str(self.path)
         self.input_data = self.parse_input(self.input_data)
+
+        if self.expect_headers:
+            self.expect_headers = {x.lower(): y for x, y in
+                self.expect_headers.iteritems()}
 
         self.response = self.base.requests.request(
             self.method,
