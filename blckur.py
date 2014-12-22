@@ -10,8 +10,39 @@ import sys
 STR_EXP = re.compile('\{\$([^}]+)\}')
 JSON_INDENT = 2
 
+
+class TestCaseReportFilter(object):
+    def error(self, test_case):
+        return True
+
+class TestCaseReportFormatter(object):
+    def error(self, test_case, error_msg):
+        return '***************************************************\n' + \
+            '%s\n' % error_msg + \
+            'name: %r\n' % test_case.__class__.__name__ + \
+            'method: %r\n' % test_case.method + \
+            'path: %r\n' % test_case.path + \
+            'expect_status: %r' % json.dumps(test_case.expect_status,
+                indent=JSON_INDENT) + \
+            'response_status: %r\n' % test_case.response_status + \
+            'input_data: %r\n' % json.dumps(test_case.input_data,
+                indent=JSON_INDENT) + \
+            'expect_data: %r\n' % json.dumps(test_case.expect_data,
+                indent=JSON_INDENT) + \
+            'response_data: %r\n' % json.dumps(test_case.response_data,
+                indent=JSON_INDENT) + \
+            '***************************************************'
+
+class TestCaseReportHandler(object):
+    def error(self, error):
+        print error
+
 class Base(object):
     base_url = None
+    filter = TestCaseReportFilter()
+    formatter = TestCaseReportFormatter()
+    handler = TestCaseReportHandler()
+
     def __init__(self):
         self.objects = {}
         self.requests = requests.request
@@ -313,7 +344,7 @@ class TestCase(object):
                         raise Exception('TODO', key)
                 else:
                     if isinstance(value, dict):
-                        if key in test_data:
+                        if isinstance(test_data, dict) and key in test_data:
                             out_exists = True
                             out_value = test_data[key]
                         else:
@@ -322,8 +353,8 @@ class TestCase(object):
                         if not self.check_data(value, out_value, out_exists):
                             return
                     else:
-                        if isinstance(test_data, list):
-                            raise TypeError('TODO %r' % test_data)
+                        if not isinstance(test_data, dict):
+                            return
 
                         values = [value]
                         matched = self.check_match(values, test_data.get(key))
@@ -356,6 +387,16 @@ class TestCase(object):
             )
         return True
 
+    def handle_check_error(self, error_msg):
+        if not self.base.filter.error(self):
+            return
+
+        report = self.base.formatter.error(self, error_msg)
+        self.base.handler.error(report)
+
+        if self.required:
+            sys.exit(1)
+
     def handle_response(self, response):
         self.response_status = response.status_code
 
@@ -369,8 +410,7 @@ class TestCase(object):
             self.response_status,
         )
         if not self.status_check:
-            if self.required:
-                sys.exit(1)
+            self.handle_check_error('Status check failed')
             return
 
         self.data_check = self.handle_expect_data(
@@ -378,8 +418,7 @@ class TestCase(object):
             self.expect_data,
         )
         if not self.data_check:
-            if self.required:
-                sys.exit(1)
+            self.handle_check_error('Data check failed')
             return
 
     def run(self):
