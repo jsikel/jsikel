@@ -408,6 +408,8 @@ class TestCase(object):
     def run(self):
         self.path = self.parse_str(self.path)
         self.input_json = self.parse_input(self.input_json)
+        self.input_params = self.parse_input(self.input_params)
+        self.input_data = self.parse_input(self.input_data)
 
         if self.expect_headers:
             self.expect_headers = {x.lower(): y for x, y in
@@ -419,6 +421,8 @@ class TestCase(object):
             self.method,
             self.base.base_url + self.path,
             headers=self.input_headers,
+            params=self.input_params,
+            data=self.input_data,
             json=self.input_json,
             **kwargs
         )
