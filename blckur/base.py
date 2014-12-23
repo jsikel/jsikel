@@ -17,7 +17,6 @@ class Base(object):
     formatter = formatter.ReportFormatter()
     handler = handler.ReportHandler()
     request_kwargs = None
-    request_time = None
 
     def __init__(self):
         self.objects = {}
