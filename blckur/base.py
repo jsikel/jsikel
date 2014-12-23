@@ -19,7 +19,7 @@ class Base(object):
 
     def __init__(self):
         self.objects = {}
-        self.requests = requests.request
+        self.requests = requests
 
     @property
     def TestCase(self):
