@@ -66,18 +66,22 @@ class Base(object):
             **kwargs
         )
 
+    @classmethod
+    def main(cls):
+        cls._instance.setup()
+        cls._instance.run_all()
+
 class SessionBase(Base):
     def __init__(self):
         Base.__init__(self)
         self.requests = requests.Session()
-        self.init_session()
 
     def _get_attr(self, name, default=None):
         if hasattr(self, name):
             return getattr(self, name)
         return default
 
-    def init_session(self):
+    def setup(self):
         test_case = type('SessionInitTestCase', (self.TestCase,), {
             'base': self,
             'require': self._get_attr('require'),
