@@ -402,6 +402,8 @@ class TestCase(object):
             self.handle_check_error('Data check failed')
             return
 
+        self.base.log_response(self)
+
     def run(self):
         self.method = self.method.upper()
         self.path = self.parse_str(self.path)

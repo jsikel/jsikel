@@ -73,6 +73,13 @@ class Base(object):
         report = self.formatter.error(test_case, error_msg)
         self.handler.error(report)
 
+    def log_response(self, test_case):
+        if not self.filter.response(self):
+            return
+
+        report = self.formatter.response(test_case)
+        self.handler.response(report)
+
     @classmethod
     def main(cls):
         cls._instance.setup()
