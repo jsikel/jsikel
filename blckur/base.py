@@ -50,7 +50,7 @@ class Base(object):
 
         start = time.time()
         response = self.request(method, url, **kwargs)
-        self.request_time = int((time.time() - start) * 1000)
+        response.request_time = int((time.time() - start) * 1000)
 
         return response
 
