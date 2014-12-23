@@ -110,7 +110,7 @@ class SessionBase(Base):
             'expect_json': self._get_attr('expect_json'),
             'request_kwargs': self._get_attr('request_kwargs'),
         })
-        test_case()
+        self.test_cases.appendleft(tst_case)
 
 def append_to(base_cls):
     def _wrapped(cls):
