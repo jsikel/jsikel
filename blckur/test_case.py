@@ -25,8 +25,9 @@ class TestCase(object):
     def __init__(self):
         self._error_marked = False
 
-        if self.__class__ in self.base.objects:
-            raise ValueError('Test case %r already run' % self.__class__)
+        if self.id in self.base.objects:
+            raise ValueError('Test case %r already run' % (
+                self.__class__.__name__))
 
         if self.require:
             if not isinstance(self.require, (list, tuple)):
