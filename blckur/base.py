@@ -111,3 +111,19 @@ class SessionBase(Base):
             'request_kwargs': self._get_attr('request_kwargs'),
         })
         test_case()
+
+def append_to(base_cls):
+    def _wrapped(cls):
+        if not hasattr(base_cls, 'test_cases'):
+            base_cls.test_cases = collections.deque()
+        base_cls.test_cases.append(cls)
+        return cls
+    return _wrapped
+
+def prepend_to(base_cls):
+    def _wrapped(cls):
+        if not hasattr(base_cls, 'test_cases'):
+            base_cls.test_cases = collections.deque()
+        base_cls.test_cases.appendleft(cls)
+        return cls
+    return _wrapped
