@@ -6,6 +6,7 @@ from blckur import handler
 from blckur import test_case
 
 import time
+import uuid
 import requests
 
 class Base(object):
@@ -23,6 +24,7 @@ class Base(object):
     @property
     def TestCase(self):
         return type('TestCase', (test_case.TestCase,), {
+            'id': uuid.uuid4().hex,
             'base': self,
         })
 
