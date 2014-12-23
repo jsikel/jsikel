@@ -5,5 +5,5 @@ class ReportHandler(object):
     def response(self, msg):
         print msg
 
-    def error(self, error):
-        print error
+    def error(self, msg):
+        print msg
