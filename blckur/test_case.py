@@ -408,9 +408,14 @@ class TestCase(object):
 
     def run(self):
         self.path = self.parse_str(self.path)
+        self.input_headers = self.parse_input(self.input_headers)
         self.input_json = self.parse_input(self.input_json)
         self.input_params = self.parse_input(self.input_params)
         self.input_data = self.parse_input(self.input_data)
+
+        if self.input_headers:
+            self.input_headers = {x.lower(): y for x, y in
+                self.input_headers.iteritems()}
 
         if self.expect_headers:
             self.expect_headers = {x.lower(): y for x, y in
