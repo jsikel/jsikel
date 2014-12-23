@@ -15,7 +15,7 @@ class ReportFormatter(object):
             test_case.base.base_url,
             test_case.path,
             test_case.response_status,
-            test_case.response.request_time,
+            test_case.response_time,
         )
 
     def error(self, test_case, error_msg):

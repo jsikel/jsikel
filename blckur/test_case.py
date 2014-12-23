@@ -372,6 +372,7 @@ class TestCase(object):
     def handle_response(self, response):
         self.response_status = response.status_code
         self.response_headers = dict(response.headers.items())
+        self.response_time = response.duration
 
         try:
             self.response_data = response.json()
