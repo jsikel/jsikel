@@ -395,12 +395,12 @@ class TestCase(object):
             self.handle_check_error('Headers check failed')
             return
 
-        self.data_check = self.handle_expect_json(
+        self.json_check = self.handle_expect_json(
             self.response_data,
             self.expect_json,
         )
-        if not self.data_check:
-            self.handle_check_error('Data check failed')
+        if not self.json_check:
+            self.handle_check_error('Json check failed')
             return
 
         self.base.log_response(self)
