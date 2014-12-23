@@ -11,7 +11,7 @@ import uuid
 import requests
 import collections
 
-class Base(object):
+class TestSuite(object):
     base_url = None
     filter = filter.ReportFilter()
     formatter = formatter.ReportFormatter()
@@ -72,9 +72,9 @@ class Base(object):
         instance.setup()
         instance.run_all()
 
-class SessionBase(Base):
+class SessionTestSuite(TestSuite):
     def __init__(self):
-        Base.__init__(self)
+        TestSuite.__init__(self)
         self.requests = requests.Session()
 
     def _get_attr(self, name, default=None):

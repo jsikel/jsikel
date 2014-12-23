@@ -22,10 +22,11 @@ class TestCase(object):
     expect_json = None
     request_kwargs = None
 
-    def __init__(self):
+    def __init__(self, suite):
+        self.suite = suite
         self._error_marked = False
 
-        if self.id in self.base.objects:
+        if self.has_run:
             raise ValueError('Test case %r already run' % (
                 self.__class__.__name__))
 
@@ -35,13 +36,24 @@ class TestCase(object):
 
             requires = []
             for require in self.require:
-                require_obj = self.base.objects.get(require.id)
+                require_obj = self.suite.objects.get(require)
                 if not require_obj:
-                    require_obj = require()
+                    require_obj = require(self.suite)
                 requires.append(require_obj)
             self.require = requires
 
         self.run()
+
+    @property
+    def has_run(self):
+        return self.__class__ in self.suite.objects
+
+    @has_run.setter
+    def has_run(self, val):
+        if val:
+            self.suite.objects[self.__class__] = self
+        else:
+            self.suite.objects.pop(self.__class__, None)
 
     def parse_exp_set(self, exp_set, data):
         while exp_set:
@@ -364,7 +376,7 @@ class TestCase(object):
         return True
 
     def handle_check_error(self, error_msg):
-        self.base.log_error(self, error_msg)
+        self.suite.log_error(self, error_msg)
 
         if self.required:
             sys.exit(1)
@@ -403,7 +415,7 @@ class TestCase(object):
             self.handle_check_error('Json check failed')
             return
 
-        self.base.log_response(self)
+        self.suite.log_response(self)
 
     def run(self):
         self.method = self.method.upper()
@@ -423,9 +435,9 @@ class TestCase(object):
 
         kwargs = self.request_kwargs or {}
 
-        self.response = self.base.handle_request(
+        self.response = self.suite.handle_request(
             self.method,
-            self.base.base_url + self.path,
+            self.suite.base_url + self.path,
             headers=self.input_headers,
             params=self.input_params,
             data=self.input_data,
@@ -435,4 +447,4 @@ class TestCase(object):
 
         self.handle_response(self.response)
 
-        self.base.objects[self.id] = self
+        self.has_run = True

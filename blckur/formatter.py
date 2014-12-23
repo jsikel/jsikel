@@ -12,7 +12,7 @@ class ReportFormatter(object):
     def response(self, test_case):
         return '%s %s%s %s %sms' % (
             test_case.method,
-            test_case.base.base_url,
+            test_case.suite.base_url,
             test_case.path,
             test_case.response_status,
             test_case.response_time,
