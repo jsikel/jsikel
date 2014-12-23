@@ -66,6 +66,13 @@ class Base(object):
             **kwargs
         )
 
+    def log_error(self, test_case, error_msg):
+        if not self.filter.error(self):
+            return
+
+        report = self.formatter.error(test_case, error_msg)
+        self.handler.error(report)
+
     @classmethod
     def main(cls):
         cls._instance.setup()
