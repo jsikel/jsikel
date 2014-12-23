@@ -35,7 +35,7 @@ class Base(object):
             obj = getattr(module, name)
             if isinstance(obj, type) and \
                     issubclass(obj, test_case.TestCase) and \
-                    obj.base == self and obj not in self.objects:
+                    obj.base == self and obj.id not in self.objects:
                 obj()
 
     def handle_request(self, method, url, **kwargs):

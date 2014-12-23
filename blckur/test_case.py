@@ -34,7 +34,7 @@ class TestCase(object):
 
             requires = []
             for require in self.require:
-                require_obj = self.base.objects.get(require)
+                require_obj = self.base.objects.get(require.id)
                 if not require_obj:
                     require_obj = require()
                 requires.append(require_obj)
@@ -429,4 +429,4 @@ class TestCase(object):
 
         self.handle_response(self.response)
 
-        self.base.objects[self.__class__] = self
+        self.base.objects[self.id] = self
