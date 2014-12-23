@@ -30,6 +30,7 @@ class ReportFormatter(object):
                 indent=JSON_INDENT,
             ) + \
             'response_status: %s\n' % test_case.response_status + \
+            'response_time: %sms\n' % test_case.response_time + \
             'expect_headers: %s\n' % json.dumps(
                 test_case.expect_headers,
                 default=self.json_default,
