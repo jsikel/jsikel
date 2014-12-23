@@ -1,5 +1,6 @@
 from blckur.constants import *
 from blckur.exceptions import *
+from blckur.helpers import *
 from blckur import filter
 from blckur import formatter
 from blckur import handler
@@ -10,6 +11,7 @@ import uuid
 import requests
 
 class Base(object):
+    _instance = None
     base_url = None
     filter = filter.ReportFilter()
     formatter = formatter.ReportFormatter()
@@ -21,14 +23,18 @@ class Base(object):
         self.objects = {}
         self.requests = requests
 
-    @property
-    def TestCase(self):
+    @static_property
+    def TestCase(cls):
+        cls._instance = cls._instance or cls()
         return type('TestCase', (test_case.TestCase,), {
             'id': uuid.uuid4().hex,
-            'base': self,
+            'base': cls._instance,
         })
 
-    def main(self):
+    def setup(self):
+        pass
+
+    def run_all(self):
         module = __import__('__main__')
 
         for name in dir(module):
