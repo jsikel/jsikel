@@ -364,11 +364,7 @@ class TestCase(object):
         return True
 
     def handle_check_error(self, error_msg):
-        if not self.base.filter.error(self):
-            return
-
-        report = self.base.formatter.error(self, error_msg)
-        self.base.handler.error(report)
+        self.base.log_error(self, error_msg)
 
         if self.required:
             sys.exit(1)
