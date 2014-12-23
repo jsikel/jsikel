@@ -403,6 +403,7 @@ class TestCase(object):
             return
 
     def run(self):
+        self.method = self.method.upper()
         self.path = self.parse_str(self.path)
         self.input_headers = self.parse_input(self.input_headers)
         self.input_json = self.parse_input(self.input_json)
