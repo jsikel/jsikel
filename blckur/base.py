@@ -65,18 +65,18 @@ class Base(object):
             **kwargs
         )
 
-    def log_error(self, test_case, error_msg):
+    def log_error(self, tst_case, error_msg):
         if not self.filter.error(self):
             return
 
-        report = self.formatter.error(test_case, error_msg)
+        report = self.formatter.error(tst_case, error_msg)
         self.handler.error(report)
 
-    def log_response(self, test_case):
+    def log_response(self, tst_case):
         if not self.filter.response(self):
             return
 
-        report = self.formatter.response(test_case)
+        report = self.formatter.response(tst_case)
         self.handler.response(report)
 
     @classmethod
