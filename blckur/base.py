@@ -9,9 +9,9 @@ from blckur import test_case
 import time
 import uuid
 import requests
+import collections
 
 class Base(object):
-    _instance = None
     base_url = None
     filter = filter.ReportFilter()
     formatter = formatter.ReportFormatter()
@@ -22,26 +22,13 @@ class Base(object):
         self.objects = {}
         self.requests = requests
 
-    @static_property
-    def TestCase(cls):
-        cls._instance = cls._instance or cls()
-        return type('TestCase', (test_case.TestCase,), {
-            'id': uuid.uuid4().hex,
-            'base': cls._instance,
-        })
-
     def setup(self):
         pass
 
     def run_all(self):
-        module = __import__('__main__')
-
-        for name in dir(module):
-            obj = getattr(module, name)
-            if isinstance(obj, type) and \
-                    issubclass(obj, test_case.TestCase) and \
-                    obj.base == self and obj.id not in self.objects:
-                obj()
+        for tst_case in self.test_cases:
+            if tst_case not in self.objects:
+                tst_case(self)
 
     def handle_request(self, method, url, **kwargs):
         if self.request_kwargs:
@@ -81,8 +68,9 @@ class Base(object):
 
     @classmethod
     def main(cls):
-        cls._instance.setup()
-        cls._instance.run_all()
+        instance = cls()
+        instance.setup()
+        instance.run_all()
 
 class SessionBase(Base):
     def __init__(self):
@@ -95,8 +83,7 @@ class SessionBase(Base):
         return default
 
     def setup(self):
-        test_case = type('SessionInitTestCase', (self.TestCase,), {
-            'base': self,
+        tst_case = type('SessionInitTestCase', (test_case.TestCase,), {
             'require': self._get_attr('require'),
             'required': self._get_attr('required', True),
             'method': self._get_attr('method'),
