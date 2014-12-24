@@ -320,6 +320,7 @@ class TestCase(object):
                             raise TestCheckFailed
                 elif key == '$or':
                     matched = False
+
                     for item in value:
                         if self.check_data(
                                     item,
@@ -329,6 +330,7 @@ class TestCase(object):
                                 ):
                             matched = True
                             break
+
                     if not matched:
                         raise TestCheckFailed
                 elif key == '$text':
