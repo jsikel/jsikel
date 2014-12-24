@@ -22,6 +22,9 @@ class TestSuite(object):
         self.objects = {}
         self.requests = requests
 
+        if self.base_url[-1] == '/':
+            self.base_url = self.base_url[:-1]
+
     def setup(self):
         pass
 
