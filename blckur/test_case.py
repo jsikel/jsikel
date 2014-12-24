@@ -89,7 +89,7 @@ class TestCase(object):
             elif exp_type == 'require_expect':
                 data = self.require[index].expect_json
             else:
-                raise TypeError('Unknown expression %r' % exp_type)
+                raise ValueError('Unknown expression %r' % exp_type)
         elif exp_type == 'input':
             data = self.input_json
         elif exp_type == 'time':
@@ -99,7 +99,7 @@ class TestCase(object):
         elif exp_type == 'uuid':
             return uuid.uuid4().hex
         else:
-            raise TypeError('Unknown expression %r' % exp_type)
+            raise ValueError('Unknown expression %r' % exp_type)
 
         return str(self.parse_exp_set(exp_set, data))
 
@@ -127,7 +127,10 @@ class TestCase(object):
 
     def parse_value(self, value):
         if isinstance(value, basestring) and value.startswith('$'):
-            return self.parse_exp(value[1:])
+            try:
+                return self.parse_exp(value[1:])
+            except ValueError:
+                pass
         return value
 
     def iter_parse_values(self, values):
