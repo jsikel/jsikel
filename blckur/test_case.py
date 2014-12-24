@@ -209,7 +209,7 @@ class TestCase(object):
                         return False
                 elif key == '$hasnt':
                     if not isinstance(test_data, list):
-                        raise TypeError('TODO %r' % test_data)
+                        continue
 
                     for item in test_data:
                         if self.check_data(value, item):
