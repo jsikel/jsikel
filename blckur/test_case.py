@@ -99,7 +99,7 @@ class TestCase(object):
         elif exp_type == 'uuid':
             return uuid.uuid4().hex
         else:
-            raise TypeError('TODO %r' % exp)
+            raise TypeError('Unknown expression %r' % exp_type)
 
         return str(self.parse_exp_set(exp_set, data))
 
