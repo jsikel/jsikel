@@ -324,7 +324,7 @@ class TestCase(object):
                     if not isinstance(test_data, json_types[value]):
                         return False
                 else:
-                    raise Exception('TODO', key)
+                    raise TypeError('Unknown operator %r' % key)
             else:
                 if isinstance(value, dict):
                     if isinstance(test_data, dict) and key in test_data:
