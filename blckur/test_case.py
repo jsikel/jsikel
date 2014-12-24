@@ -359,6 +359,7 @@ class TestCase(object):
                         'object': dict,
                         'null': types.NoneType,
                     }
+
                     if not isinstance(test_data, json_types[value]):
                         raise TestCheckFailed
                 else:
