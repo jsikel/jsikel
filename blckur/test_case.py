@@ -309,6 +309,16 @@ class TestCase(object):
                     elif key == '$where':
                         if not value(test_data):
                             return
+                    elif key == '$regex':
+                        if isinstance(value, str):
+                            value = self.parse_value(value)
+                            data[key] = value
+
+                            if not re.match(value, test_data):
+                                return
+                        else:
+                            if not value.match(test_data):
+                                return
                     elif key == '$type':
                         json_types = {
                             'number': (int, long, float, complex),
