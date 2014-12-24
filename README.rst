@@ -1,10 +1,10 @@
+.. image:: media/logo1.png
+    :target: http://blckur.com
+
 blckur: in development
 ======================
 
 In development
-
-.. image:: media/logo1.png
-    :target: http://blckur.com
 
 License
 -------
