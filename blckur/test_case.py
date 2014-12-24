@@ -197,7 +197,7 @@ class TestCase(object):
             if key.startswith('$'):
                 if key == '$has':
                     if not isinstance(test_data, list):
-                        raise TypeError('TODO %r' % test_data)
+                        return False
 
                     found = False
                     for item in test_data:
