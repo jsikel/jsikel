@@ -112,7 +112,7 @@ class OAuthTestSuite(TestSuite):
     rsa_key = None
     verifier = None
     client_class = None
-    force_include_body = False
+    force_include_body = None
 
     def __init__(self):
         import oauthlib.oauth1
@@ -131,7 +131,7 @@ class OAuthTestSuite(TestSuite):
             rsa_key=self.rsa_key,
             verifier=self.verifier,
             client_class=self.client_class,
-            force_include_body=self.force_include_body,
+            force_include_body=self.force_include_body or False,
         )
 
 def append_to(base_cls):
