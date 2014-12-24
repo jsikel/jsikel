@@ -341,7 +341,7 @@ class TestCase(object):
                     if not value(test_data):
                         raise TestCheckFailed
                 elif key == '$regex':
-                    if isinstance(value, str):
+                    if isinstance(value, basestring):
                         value = self.parse_value(value)
                         data[key] = value
 
