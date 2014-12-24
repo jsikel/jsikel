@@ -89,7 +89,7 @@ class TestCase(object):
             elif exp_type == 'require_expect':
                 data = self.require[index].expect_json
             else:
-                raise TypeError('TODO %r' % exp)
+                raise TypeError('Unknown expression %r' % exp_type)
         elif exp_type == 'input':
             data = self.input_json
         elif exp_type == 'time':
