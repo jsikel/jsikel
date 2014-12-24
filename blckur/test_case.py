@@ -45,6 +45,22 @@ class TestCase(object):
         self.run()
 
     @property
+    def parsed_method(self):
+        if hasattr(self.method, '__call__'):
+            method = self.method()
+        else:
+            method = self.method
+        return self.parse_str(method)
+
+    @property
+    def parsed_path(self):
+        if hasattr(self.path, '__call__'):
+            path = self.path()
+        else:
+            path = self.path
+        return self.parse_str(path)
+
+    @property
     def has_run(self):
         return self.__class__ in self.suite.objects
 
@@ -428,8 +444,6 @@ class TestCase(object):
         self.suite.log_response(self)
 
     def run(self):
-        self.method = self.method.upper()
-        self.path = self.parse_str(self.path)
         self.input_headers = self.parse_input(self.input_headers)
         self.input_json = self.parse_input(self.input_json)
         self.input_params = self.parse_input(self.input_params)
@@ -446,8 +460,8 @@ class TestCase(object):
         kwargs = self.request_kwargs or {}
 
         self.response = self.suite.handle_request(
-            self.method,
-            self.suite.base_url + self.path,
+            self.parsed_method,
+            self.suite.base_url + self.parsed_path,
             headers=self.input_headers,
             params=self.input_params,
             data=self.input_data,
