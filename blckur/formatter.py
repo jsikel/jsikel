@@ -22,8 +22,8 @@ class ReportFormatter(object):
         return '***************************************************\n' + \
             '%s\n' % error_msg + \
             'name: %r\n' % test_case.__class__.__name__ + \
-            'method: %r\n' % test_case.method + \
-            'path: %r\n' % test_case.path + \
+            'method: %r\n' % test_case.parsed_method + \
+            'path: %r\n' % test_case.parsed_path + \
             'expect_status: %s\n' % json.dumps(
                 test_case.expect_status,
                 default=self.json_default,
