@@ -128,7 +128,7 @@ class TestCase(object):
     def parse_input(self, data):
         if not data:
             pass
-        elif isinstance(data, (int, long, float)):
+        elif isinstance(data, (int, long, float, complex)):
             pass
         elif isinstance(data, dict):
             for key, val in data.iteritems():
