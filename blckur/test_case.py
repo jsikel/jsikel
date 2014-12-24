@@ -239,7 +239,7 @@ class TestCase(object):
                         continue
 
                     for item in test_data:
-                        if self.check_data(value, item):
+                        if self.check_data(value, item, mark_error=mark_error):
                             raise TestCheckFailed
                 elif key == '$in':
                     if not self.check_match(value, test_data):
@@ -257,7 +257,8 @@ class TestCase(object):
                         test_data_len = 0
 
                     if isinstance(value, dict):
-                        if not self.check_data(value, test_data_len):
+                        if not self.check_data(value, test_data_len,
+                                mark_error=mark_error):
                             raise TestCheckFailed
                     else:
                         value = self.parse_value(value)
@@ -286,6 +287,7 @@ class TestCase(object):
                                 value,
                                 test_data,
                                 test_data_exists,
+                                mark_error=mark_error,
                             ):
                         raise TestCheckFailed
                 elif key in ('$lt', '$lte', '$gt', '$gte'):
@@ -304,6 +306,7 @@ class TestCase(object):
                                     item,
                                     test_data,
                                     test_data_exists,
+                                    mark_error=mark_error,
                                 ):
                             raise TestCheckFailed
                 elif key == '$nor':
@@ -312,6 +315,7 @@ class TestCase(object):
                                     item,
                                     test_data,
                                     test_data_exists,
+                                    mark_error=mark_error,
                                 ):
                             raise TestCheckFailed
                 elif key == '$or':
@@ -321,6 +325,7 @@ class TestCase(object):
                                     item,
                                     test_data,
                                     test_data_exists,
+                                    mark_error=mark_error,
                                 ):
                             matched = True
                             break
@@ -364,7 +369,8 @@ class TestCase(object):
                         else:
                             out_exists = False
                             out_value = None
-                        if not self.check_data(value, out_value, out_exists):
+                        if not self.check_data(value, out_value, out_exists,
+                                mark_error=mark_error):
                             raise TestCheckFailed
                     else:
                         if not isinstance(test_data, dict):
