@@ -102,6 +102,38 @@ class SessionTestSuite(TestSuite):
         })
         self.test_cases.appendleft(tst_case)
 
+class OAuthTestSuite(TestSuite):
+    client_secret = None
+    resource_owner_key = None
+    resource_owner_secret = None
+    callback_uri = None
+    signature_method = None
+    signature_type = None
+    rsa_key = None
+    verifier = None
+    client_class = None
+    force_include_body = False
+
+    def __init__(self):
+        import oauthlib.oauth1
+        import requests_oauthlib
+        TestSuite.__init__(self)
+
+        self.requests = requests_oauthlib.OAuth1Session(
+            client_key=unicode(self.consumer_key),
+            client_secret=unicode(self.consumer_secret),
+            resource_owner_key=unicode(self.access_token),
+            resource_owner_secret=unicode(self.access_token_secret),
+            signature_method=self.signature_method or \
+                oauthlib.oauth1.SIGNATURE_HMAC,
+            signature_type=self.signature_type or \
+                oauthlib.oauth1.SIGNATURE_TYPE_AUTH_HEADER,
+            rsa_key=self.rsa_key,
+            verifier=self.verifier,
+            client_class=self.client_class,
+            force_include_body=self.force_include_body,
+        )
+
 def append_to(base_cls):
     def _wrapped(cls):
         if not hasattr(base_cls, 'test_cases'):
