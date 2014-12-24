@@ -192,168 +192,168 @@ class TestCase(object):
 
         return True
 
-    def _check_data(self, data, test_data, test_data_exists):
-        for key, value in data.iteritems():
-            if key.startswith('$'):
-                if key == '$has':
-                    if not isinstance(test_data, list):
-                        return False
-
-                    found = False
-                    for item in test_data:
-                        if self.check_data(value, item, mark_error=False):
-                            found = True
-                            break
-
-                    if not found:
-                        return False
-                elif key == '$hasnt':
-                    if not isinstance(test_data, list):
-                        continue
-
-                    for item in test_data:
-                        if self.check_data(value, item):
-                            return False
-                elif key == '$in':
-                    if not self.check_match(value, test_data):
-                        return False
-                elif key == '$nin':
-                    if self.check_match(value, test_data):
-                        return False
-                elif key == '$all':
-                    if not self.check_match_all(value, test_data):
-                        return False
-                elif key == '$size':
-                    if isinstance(test_data, list):
-                        test_data_len = len(test_data)
-                    else:
-                        test_data_len = 0
-
-                    if isinstance(value, dict):
-                        if not self.check_data(value, test_data_len):
-                            return False
-                    else:
-                        value = self.parse_value(value)
-                        data[key] = value
-                        if value != test_data_len:
-                            return False
-                elif key == '$exists':
-                    value = self.parse_value(value)
-                    data[key] = value
-                    if value != test_data_exists:
-                        return False
-                elif key == '$eq':
-                    values = [value]
-                    matched = self.check_match(values, test_data)
-                    data[key] = values[0]
-                    if not matched:
-                        return False
-                elif key == '$ne':
-                    values = [value]
-                    matched = self.check_match(values, test_data)
-                    data[key] = values[0]
-                    if matched:
-                        return False
-                elif key == '$not':
-                    if self.check_data(
-                                value,
-                                test_data,
-                                test_data_exists,
-                            ):
-                        return False
-                elif key in ('$lt', '$lte', '$gt', '$gte'):
-                    value = self.parse_value(value)
-                    data[key] = value
-
-                    if not self.check_match_compare(
-                                value,
-                                test_data,
-                                key[1:],
-                            ):
-                        return False
-                elif key == '$and':
-                    for item in value:
-                        if not self.check_data(
-                                    item,
-                                    test_data,
-                                    test_data_exists,
-                                ):
-                            return False
-                elif key == '$nor':
-                    for item in value:
-                        if self.check_data(
-                                    item,
-                                    test_data,
-                                    test_data_exists,
-                                ):
-                            return False
-                elif key == '$or':
-                    matched = False
-                    for item in value:
-                        if self.check_data(
-                                    item,
-                                    test_data,
-                                    test_data_exists,
-                                ):
-                            matched = True
-                            break
-                    if not matched:
-                        return False
-                elif key == '$where':
-                    if not value(test_data):
-                        return False
-                elif key == '$regex':
-                    if isinstance(value, str):
-                        value = self.parse_value(value)
-                        data[key] = value
-
-                        if not re.match(value, test_data):
-                            return False
-                    else:
-                        if not value.match(test_data):
-                            return False
-                elif key == '$type':
-                    json_types = {
-                        'number': (int, long, float, complex),
-                        'string': basestring,
-                        'boolean': bool,
-                        'array': list,
-                        'object': dict,
-                        'null': types.NoneType,
-                    }
-                    if not isinstance(test_data, json_types[value]):
-                        return False
-                else:
-                    raise TypeError('Unknown operator %r' % key)
-            else:
-                if isinstance(value, dict):
-                    if isinstance(test_data, dict) and key in test_data:
-                        out_exists = True
-                        out_value = test_data[key]
-                    else:
-                        out_exists = False
-                        out_value = None
-                    if not self.check_data(value, out_value, out_exists):
-                        return False
-                else:
-                    if not isinstance(test_data, dict):
-                        return False
-
-                    values = [value]
-                    matched = self.check_match(values, test_data.get(key))
-                    data[key] = values[0]
-
-                    if not matched:
-                        return False
-
-        return True
-
     def check_data(self, data, test_data, test_data_exists=True, expect=True,
             mark_error=True):
+        match = True
+
         if not isinstance(data, dict):
             return self.check_match([data], test_data)
 
-        match = self._check_data(data, test_data, test_data_exists)
+        try:
+            for key, value in data.iteritems():
+                if key.startswith('$'):
+                    if key == '$has':
+                        if not isinstance(test_data, list):
+                            raise TestCheckFailed
+
+                        found = False
+                        for item in test_data:
+                            if self.check_data(value, item, mark_error=False):
+                                found = True
+                                break
+
+                        if not found:
+                            raise TestCheckFailed
+                    elif key == '$hasnt':
+                        if not isinstance(test_data, list):
+                            continue
+
+                        for item in test_data:
+                            if self.check_data(value, item):
+                                raise TestCheckFailed
+                    elif key == '$in':
+                        if not self.check_match(value, test_data):
+                            raise TestCheckFailed
+                    elif key == '$nin':
+                        if self.check_match(value, test_data):
+                            raise TestCheckFailed
+                    elif key == '$all':
+                        if not self.check_match_all(value, test_data):
+                            raise TestCheckFailed
+                    elif key == '$size':
+                        if isinstance(test_data, list):
+                            test_data_len = len(test_data)
+                        else:
+                            test_data_len = 0
+
+                        if isinstance(value, dict):
+                            if not self.check_data(value, test_data_len):
+                                raise TestCheckFailed
+                        else:
+                            value = self.parse_value(value)
+                            data[key] = value
+                            if value != test_data_len:
+                                raise TestCheckFailed
+                    elif key == '$exists':
+                        value = self.parse_value(value)
+                        data[key] = value
+                        if value != test_data_exists:
+                            raise TestCheckFailed
+                    elif key == '$eq':
+                        values = [value]
+                        matched = self.check_match(values, test_data)
+                        data[key] = values[0]
+                        if not matched:
+                            raise TestCheckFailed
+                    elif key == '$ne':
+                        values = [value]
+                        matched = self.check_match(values, test_data)
+                        data[key] = values[0]
+                        if matched:
+                            raise TestCheckFailed
+                    elif key == '$not':
+                        if self.check_data(
+                                    value,
+                                    test_data,
+                                    test_data_exists,
+                                ):
+                            raise TestCheckFailed
+                    elif key in ('$lt', '$lte', '$gt', '$gte'):
+                        value = self.parse_value(value)
+                        data[key] = value
+
+                        if not self.check_match_compare(
+                                    value,
+                                    test_data,
+                                    key[1:],
+                                ):
+                            raise TestCheckFailed
+                    elif key == '$and':
+                        for item in value:
+                            if not self.check_data(
+                                        item,
+                                        test_data,
+                                        test_data_exists,
+                                    ):
+                                raise TestCheckFailed
+                    elif key == '$nor':
+                        for item in value:
+                            if self.check_data(
+                                        item,
+                                        test_data,
+                                        test_data_exists,
+                                    ):
+                                raise TestCheckFailed
+                    elif key == '$or':
+                        matched = False
+                        for item in value:
+                            if self.check_data(
+                                        item,
+                                        test_data,
+                                        test_data_exists,
+                                    ):
+                                matched = True
+                                break
+                        if not matched:
+                            raise TestCheckFailed
+                    elif key == '$where':
+                        if not value(test_data):
+                            raise TestCheckFailed
+                    elif key == '$regex':
+                        if isinstance(value, str):
+                            value = self.parse_value(value)
+                            data[key] = value
+
+                            if not re.match(value, test_data):
+                                raise TestCheckFailed
+                        else:
+                            if not value.match(test_data):
+                                raise TestCheckFailed
+                    elif key == '$type':
+                        json_types = {
+                            'number': (int, long, float, complex),
+                            'string': basestring,
+                            'boolean': bool,
+                            'array': list,
+                            'object': dict,
+                            'null': types.NoneType,
+                        }
+                        if not isinstance(test_data, json_types[value]):
+                            raise TestCheckFailed
+                    else:
+                        raise TypeError('Unknown operator %r' % key)
+                else:
+                    if isinstance(value, dict):
+                        if isinstance(test_data, dict) and key in test_data:
+                            out_exists = True
+                            out_value = test_data[key]
+                        else:
+                            out_exists = False
+                            out_value = None
+                        if not self.check_data(value, out_value, out_exists):
+                            raise TestCheckFailed
+                    else:
+                        if not isinstance(test_data, dict):
+                            raise TestCheckFailed
+
+                        values = [value]
+                        matched = self.check_match(values, test_data.get(key))
+                        data[key] = values[0]
+
+                        if not matched:
+                            raise TestCheckFailed
+        except TestCheckFailed:
+            match = False
 
         if mark_error and match != expect and not self._error_marked:
             self._error_marked = True
