@@ -324,6 +324,12 @@ class TestCase(object):
                             break
                     if not matched:
                         raise TestCheckFailed
+                elif key == '$text':
+                    value = self.parse_value(value)
+                    data[key] = value
+
+                    if value not in test_data:
+                        raise TestCheckFailed
                 elif key == '$where':
                     if not value(test_data):
                         raise TestCheckFailed
