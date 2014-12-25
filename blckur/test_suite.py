@@ -17,6 +17,7 @@ class TestSuite(object):
     formatter = formatter.ReportFormatter()
     handler = handler.ReportHandler()
     request_kwargs = None
+    verify = True
 
     def __init__(self):
         self.objects = {}
@@ -52,6 +53,7 @@ class TestSuite(object):
             json=json,
             params=params,
             data=data,
+            verify=self.verify,
             **kwargs
         )
 
