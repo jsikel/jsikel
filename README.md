@@ -141,3 +141,286 @@ matching_output = {
     'key': 'value',
 }
 ```
+
+### $ne
+
+Checks that the output value is not equal to the provided value.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$ne': 'value1'},
+    }
+
+matching_output = {
+    'key': 'value0',
+}
+```
+
+### $lt
+
+Checks that the output value is less then the provided value.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$lt': 100},
+    }
+
+matching_output = {
+    'key': 10,
+}
+```
+
+### $lte
+
+Checks that the output value is less then or equal to the provided value.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$lte': 100},
+    }
+
+matching_output = {
+    'key': 100,
+}
+```
+
+### $gt
+
+Checks that the output value is greater then the provided value.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$gt': 100},
+    }
+
+matching_output = {
+    'key': 110,
+}
+```
+
+### $gte
+
+Checks that the output value is greater then or equal to the provided value.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$gte': 100},
+    }
+
+matching_output = {
+    'key': 100,
+}
+```
+
+### $not
+
+Checks that the provided expression is not true.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$not': {'$gt': 100}},
+    }
+
+matching_output = {
+    'key': 10,
+}
+```
+
+### $and
+
+Checks that all of the provided expression are true.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$and': [
+            {'key': {'$ne': 'value1'}},
+            {'key': {'$exists': True}},
+        ]},
+    }
+
+matching_output = {
+    'key': 'value0',
+}
+```
+
+### $and
+
+Checks that all of the provided expression are true.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$and': [
+            {'key': {'$ne': 'value1'}},
+            {'key': {'$exists': True}},
+        ]},
+    }
+
+matching_output = {
+    'key': 'value0',
+}
+```
+
+### $or
+
+Checks that one of the provided expression are true.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$or': [
+            {'key': 10},
+            {'key': {'$gt': 100}},
+        ]},
+    }
+
+matching_output = {
+    'key': 10,
+}
+```
+
+### $nor
+
+Checks that none of the provided expression are true.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$nor': [
+            {'key': 10},
+            {'key': {'$gt': 100}},
+        ]},
+    }
+
+matching_output = {
+    'key': 5,
+}
+```
+
+### $text
+
+Checks that the provided string exists in the output value.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$text': 'test'},
+    }
+
+matching_output = {
+    'key': "example_test_string',
+}
+```
+
+### $where
+
+Checks that the provided function returns true given the output value.
+
+```python
+def test_value(value):
+    if value == 10:
+        return True
+
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$where': test_value},
+    }
+
+matching_output = {
+    'key': 10,
+}
+```
+
+### $regex
+
+Checks that the provided regular expression is true given the output value.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$regex': '^[a-z0-9]+$'},
+    }
+
+matching_output = {
+    'key': 'abc123',
+}
+```
+
+### $type
+
+Checks that the output value is of the provided type `'number'`, `'string'`,
+`'boolean'`, `'array'`, `'object'` or `'null'`.
+
+```python
+@blckur.append_to(ExampleSuite)
+class GetExample(blckur.TestCase):
+    method = 'GET'
+    path = '/example'
+    expect_status = 200
+    expect_json = {
+        'key': {'$type': 'number'},
+    }
+
+matching_output = {
+    'key': 100,
+}
+```
