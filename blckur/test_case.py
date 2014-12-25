@@ -282,14 +282,6 @@ class TestCase(object):
                     data[key] = values[0]
                     if matched:
                         raise TestCheckFailed
-                elif key == '$not':
-                    if self.check_data(
-                                value,
-                                test_data,
-                                test_data_exists,
-                                mark_error=mark_error,
-                            ):
-                        raise TestCheckFailed
                 elif key in ('$lt', '$lte', '$gt', '$gte'):
                     value = self.parse_value(value)
                     data[key] = value
@@ -300,18 +292,17 @@ class TestCase(object):
                                 key[1:],
                             ):
                         raise TestCheckFailed
+                elif key == '$not':
+                    if self.check_data(
+                                value,
+                                test_data,
+                                test_data_exists,
+                                mark_error=mark_error,
+                            ):
+                        raise TestCheckFailed
                 elif key == '$and':
                     for item in value:
                         if not self.check_data(
-                                    item,
-                                    test_data,
-                                    test_data_exists,
-                                    mark_error=mark_error,
-                                ):
-                            raise TestCheckFailed
-                elif key == '$nor':
-                    for item in value:
-                        if self.check_data(
                                     item,
                                     test_data,
                                     test_data_exists,
@@ -333,6 +324,15 @@ class TestCase(object):
 
                     if not matched:
                         raise TestCheckFailed
+                elif key == '$nor':
+                    for item in value:
+                        if self.check_data(
+                                    item,
+                                    test_data,
+                                    test_data_exists,
+                                    mark_error=mark_error,
+                                ):
+                            raise TestCheckFailed
                 elif key == '$text':
                     value = self.parse_value(value)
                     data[key] = value
