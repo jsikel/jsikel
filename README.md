@@ -17,6 +17,12 @@ and authentication is defined in the test suite.
 | formatter | Instance of ReportFormatter used to format output |
 | handler | Instance of ReportHandler used to handle output |
 
+
+```python
+class ExampleSuite(blckur.TestSuite):
+    base_url = 'http://localhost:9700'
+```
+
 ## operators
 
 ### $has
