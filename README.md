@@ -14,6 +14,7 @@ all the test cases in the suite.
 | attributes | description |
 | ---------- | ----------- |
 | base_url | The base url of requests. The test case path will be appended to this url. |
+| verify | | If `False` ssl certificate will not be verified this is needed for self signed server certificates |
 | filter | Instance of ReportFilter used to filter output |
 | formatter | Instance of ReportFormatter used to format output |
 | handler | Instance of ReportHandler used to handle output |
@@ -21,7 +22,8 @@ all the test cases in the suite.
 
 ```python
 class ExampleSuite(blckur.TestSuite):
-    base_url = 'http://localhost:9700'
+    base_url = 'https://localhost:9700'
+    verify = False
 ```
 
 ## operators
