@@ -33,7 +33,7 @@ are defined in the test case as well as the expected output.
 | attributes | description |
 | ---------- | ----------- |
 | method | The http method to test |
-| path | | The path component of the url to test this value will be appended to the `base_url` |
+| path | The path component of the url to test this value will be appended to the `base_url` |
 | expect_status | The expected status code can be a `number` or a `dict` using test operators |
 | input_json | The input json object that will be sent to the url. Required headers will automatically be added |
 | input_data | The input http post data as a `dict` that will be sent to the url |
