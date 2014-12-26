@@ -5,6 +5,18 @@
 for your REST API and microservices with a familiar format based on MongoDBs
 query language. More information available at [blckur.com](https://blckur.com)
 
+## test suites
+
+Test suites are the base class for groups of test cases. The request options
+and authentication is defined in the test suite.
+
+| attributes | description |
+| ---------- | ----------- |
+| base_url | The base url of requests. The test case path will be appended to this url. |
+| filter | Instance of ReportFilter used to filter output |
+| formatter | Instance of ReportFormatter used to format output |
+| handler | Instance of ReportHandler used to handle output |
+
 ## operators
 
 ### $has
