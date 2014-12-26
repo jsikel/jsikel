@@ -19,7 +19,6 @@ all the test cases in the suite.
 | formatter | Instance of ReportFormatter used to format output |
 | handler | Instance of ReportHandler used to handle output |
 
-
 ```python
 class ExampleSuite(blckur.TestSuite):
     base_url = 'https://localhost:9700'
