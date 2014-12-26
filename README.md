@@ -13,7 +13,7 @@ all the test cases in the suite.
 
 | attributes | description |
 | ---------- | ----------- |
-| base_url | The base url of requests. The test case path will be appended to this url. |
+| base_url | The base url of requests. The test case path will be appended to this url |
 | verify | | If `False` ssl certificate will not be verified this is needed for self signed server certificates |
 | filter | Instance of ReportFilter used to filter output |
 | formatter | Instance of ReportFormatter used to format output |
