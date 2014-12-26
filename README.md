@@ -25,7 +25,22 @@ class ExampleSuite(blckur.TestSuite):
     verify = False
 ```
 
-## operators
+## test cases
+
+Test cases are the base class for testing an api handle. The url path and input
+are defined in the test case as well as the expected output.
+
+| attributes | description |
+| ---------- | ----------- |
+| method | The http method to test |
+| path | | The path component of the url to test this value will be appended to the `base_url` |
+| expect_status | The expected status code can be a `number` or a `dict` using test operators |
+| input_json | The input json object that will be sent to the url. Required headers will automatically be added |
+| input_data | The input http post data as a `dict` that will be sent to the url |
+| input_params | The input http query string params as a `dict` that will be sent to the url |
+| expect_json | The expected json response defined using test operators |
+
+## test operators
 
 ### $has
 
