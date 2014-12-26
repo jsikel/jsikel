@@ -13,11 +13,11 @@ import collections
 
 class TestSuite(object):
     base_url = None
+    verify = True
     filter = filter.ReportFilter()
     formatter = formatter.ReportFormatter()
     handler = handler.ReportHandler()
     request_kwargs = None
-    verify = True
 
     def __init__(self):
         self.objects = {}
