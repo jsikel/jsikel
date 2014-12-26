@@ -7,8 +7,9 @@ query language. More information available at [blckur.com](https://blckur.com)
 
 ## test suites
 
-Test suites are the base class for groups of test cases. The request options
-and authentication is defined in the test suite.
+Test suites is the base class for groups of test cases. The request options
+and authentication is defined in the test suite. Use the `main()` method to run
+all the test cases in the suite.
 
 | attributes | description |
 | ---------- | ----------- |
