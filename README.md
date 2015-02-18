@@ -1,9 +1,12 @@
-[![Blckur](media/logo1.png)](https://blckur.com)
+[![blikur](media/logo1.png)](https://blikur.com)
 
-# blckur: rest api testing framework
-[Blckur](https://github.com/blckur/blckur) allows quickly writing unittests
+# blikur: rest api testing framework
+[blikur](https://github.com/blikur/blikur) allows quickly writing unittests
 for your REST API and microservices with a familiar format based on MongoDBs
-query language. More information available at [blckur.com](https://blckur.com)
+query language. More information available at [blikur.com](https://blikur.com)
+
+
+| require | Tests that must be run prior to this test. The input and output values of the required test cases can be accessed using |
 
 ## test suites
 
@@ -20,7 +23,7 @@ all the test cases in the suite.
 | handler | Instance of ReportHandler used to handle output |
 
 ```python
-class ExampleSuite(blckur.TestSuite):
+class ExampleSuite(blikur.TestSuite):
     base_url = 'https://localhost:9700'
     verify = False
 ```
@@ -47,8 +50,8 @@ are defined in the test case as well as the expected output.
 Tests that the output array contains an object.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -67,8 +70,8 @@ matching_output = [
 Tests that the output array doesn't contain an object.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -87,8 +90,8 @@ matching_output = [
 Checks that the output value exists in the provided array.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -106,8 +109,8 @@ matching_output = {
 Checks that the output value doesn't exists in the provided array.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -125,8 +128,8 @@ matching_output = {
 Checks that the output value contains all the provided elements in the array.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -144,8 +147,8 @@ matching_output = {
 Checks that the output value size matches the provided size.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -163,8 +166,8 @@ matching_output = {
 Checks that the output contains or doesn't contain the provided key.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -182,8 +185,8 @@ matching_output = {
 Checks that the output value is not equal to the provided value.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -201,8 +204,8 @@ matching_output = {
 Checks that the output value is less then the provided value.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -220,8 +223,8 @@ matching_output = {
 Checks that the output value is less then or equal to the provided value.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -239,8 +242,8 @@ matching_output = {
 Checks that the output value is greater then the provided value.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -258,8 +261,8 @@ matching_output = {
 Checks that the output value is greater then or equal to the provided value.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -277,8 +280,8 @@ matching_output = {
 Checks that the provided expression is not true.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -296,8 +299,8 @@ matching_output = {
 Checks that all of the provided expression are true.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -318,8 +321,8 @@ matching_output = {
 Checks that all of the provided expression are true.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -340,8 +343,8 @@ matching_output = {
 Checks that one of the provided expression are true.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -362,8 +365,8 @@ matching_output = {
 Checks that none of the provided expression are true.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -384,8 +387,8 @@ matching_output = {
 Checks that the provided string exists in the output value.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -407,8 +410,8 @@ def test_value(value):
     if value == 10:
         return True
 
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -426,8 +429,8 @@ matching_output = {
 Checks that the provided regular expression is true given the output value.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -446,8 +449,8 @@ Checks that the output value is of the provided type `'number'`, `'string'`,
 `'boolean'`, `'array'`, `'object'` or `'null'`.
 
 ```python
-@blckur.append_to(ExampleSuite)
-class GetExample(blckur.TestCase):
+@blikur.append_to(ExampleSuite)
+class GetExample(blikur.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200

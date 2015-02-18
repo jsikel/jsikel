@@ -1,5 +1,5 @@
-from blckur.constants import *
-from blckur.exceptions import *
+from blikur.constants import *
+from blikur.exceptions import *
 
 import copy
 import collections
@@ -7,6 +7,9 @@ import time
 import uuid
 import types
 import sys
+
+# TODO Match file path open file and compare with response
+# Add minetype
 
 class TestCase(object):
     require = None

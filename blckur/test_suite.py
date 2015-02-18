@@ -1,10 +1,10 @@
-from blckur.constants import *
-from blckur.exceptions import *
-from blckur.helpers import *
-from blckur import filter
-from blckur import formatter
-from blckur import handler
-from blckur import test_case
+from blikur.constants import *
+from blikur.exceptions import *
+from blikur.helpers import *
+from blikur import filter
+from blikur import formatter
+from blikur import handler
+from blikur import test_case
 
 import time
 import uuid
