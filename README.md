@@ -1,7 +1,7 @@
 [![blikur](media/logo1.png)](https://blikur.com)
 
 # blikur: rest api testing framework
-[blikur](https://github.com/blikur/blikur) allows quickly writing unittests
+[Blikur](https://github.com/blikur/blikur) allows quickly writing unittests
 for your REST API and microservices with a familiar format based on MongoDBs
 query language. More information available at [blikur.com](https://blikur.com)
 
