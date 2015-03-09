@@ -1,9 +1,9 @@
-[![blikur](media/logo1.png)](https://blikur.com)
+[![jsikel](media/logo1.png)](https://jsikel.com)
 
-# blikur: rest api testing framework
-[Blikur](https://github.com/blikur/blikur) allows quickly writing unittests
+# jsikel: rest api testing framework
+[Jsikel](https://github.com/jsikel/jsikel) allows quickly writing unittests
 for your REST API and microservices with a familiar format based on MongoDBs
-query language. More information available at [blikur.com](https://blikur.com)
+query language. More information available at [jsikel.com](https://jsikel.com)
 
 
 | require | Tests that must be run prior to this test. The input and output values of the required test cases can be accessed using |
@@ -23,7 +23,7 @@ all the test cases in the suite.
 | handler | Instance of ReportHandler used to handle output |
 
 ```python
-class ExampleSuite(blikur.TestSuite):
+class ExampleSuite(jsikel.TestSuite):
     base_url = 'https://localhost:9700'
     verify = False
 ```
@@ -50,8 +50,8 @@ are defined in the test case as well as the expected output.
 Tests that the output array contains an object.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -70,8 +70,8 @@ matching_output = [
 Tests that the output array doesn't contain an object.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -90,8 +90,8 @@ matching_output = [
 Checks that the output value exists in the provided array.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -109,8 +109,8 @@ matching_output = {
 Checks that the output value doesn't exists in the provided array.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -128,8 +128,8 @@ matching_output = {
 Checks that the output value contains all the provided elements in the array.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -147,8 +147,8 @@ matching_output = {
 Checks that the output value size matches the provided size.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -166,8 +166,8 @@ matching_output = {
 Checks that the output contains or doesn't contain the provided key.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -185,8 +185,8 @@ matching_output = {
 Checks that the output value is not equal to the provided value.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -204,8 +204,8 @@ matching_output = {
 Checks that the output value is less then the provided value.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -223,8 +223,8 @@ matching_output = {
 Checks that the output value is less then or equal to the provided value.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -242,8 +242,8 @@ matching_output = {
 Checks that the output value is greater then the provided value.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -261,8 +261,8 @@ matching_output = {
 Checks that the output value is greater then or equal to the provided value.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -280,8 +280,8 @@ matching_output = {
 Checks that the provided expression is not true.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -299,8 +299,8 @@ matching_output = {
 Checks that all of the provided expression are true.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -321,8 +321,8 @@ matching_output = {
 Checks that all of the provided expression are true.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -343,8 +343,8 @@ matching_output = {
 Checks that one of the provided expression are true.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -365,8 +365,8 @@ matching_output = {
 Checks that none of the provided expression are true.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -387,8 +387,8 @@ matching_output = {
 Checks that the provided string exists in the output value.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -410,8 +410,8 @@ def test_value(value):
     if value == 10:
         return True
 
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -429,8 +429,8 @@ matching_output = {
 Checks that the provided regular expression is true given the output value.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200
@@ -449,8 +449,8 @@ Checks that the output value is of the provided type `'number'`, `'string'`,
 `'boolean'`, `'array'`, `'object'` or `'null'`.
 
 ```python
-@blikur.append_to(ExampleSuite)
-class GetExample(blikur.TestCase):
+@jsikel.append_to(ExampleSuite)
+class GetExample(jsikel.TestCase):
     method = 'GET'
     path = '/example'
     expect_status = 200

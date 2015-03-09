@@ -1,10 +1,10 @@
-from blikur.constants import *
-from blikur.exceptions import *
-from blikur.helpers import *
-from blikur import filter
-from blikur import formatter
-from blikur import handler
-from blikur import test_case
+from jsikel.constants import *
+from jsikel.exceptions import *
+from jsikel.helpers import *
+from jsikel import filter
+from jsikel import formatter
+from jsikel import handler
+from jsikel import test_case
 
 import time
 import uuid

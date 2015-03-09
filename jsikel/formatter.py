@@ -1,5 +1,5 @@
-from blikur.constants import *
-from blikur.exceptions import *
+from jsikel.constants import *
+from jsikel.exceptions import *
 
 import json
 
